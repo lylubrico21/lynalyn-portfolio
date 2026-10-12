@@ -100,13 +100,15 @@ export function useLenis() {
       const lenis = new Lenis({
         ...(usesPanel && content ? { wrapper: panel, content } : {}),
         // Shorter duration + steeper exponential easing makes the wheel feel
-        // responsive instead of heavy. 1.1s read as "the page is sluggish".
-        // 0.9s with a steeper curve still smooths native step jumps but
-        // settles fast enough that input does not feel disconnected.
-        duration: 0.9,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -12 * t)),
+        // responsive instead of heavy. 1.1s read as "the page is sluggish";
+        // 0.9s still read as "hard to scroll" with a real mouse wheel,
+        // whose single notch is one discrete, deliberate input rather than
+        // a trackpad's continuous stream - it needs to travel further and
+        // settle faster, or every notch feels like it is fighting the page.
+        duration: 0.6,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -14 * t)),
         smoothWheel: true,
-        wheelMultiplier: 1,
+        wheelMultiplier: 1.3,
         touchMultiplier: 1.5,
         // A handful of panels (the testimonials ledger, etc.) scroll on their
         // own when their content outgrows a short window. Without this, Lenis
