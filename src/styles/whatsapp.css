@@ -1,0 +1,125 @@
+/* ============================================
+   WHATSAPP WIDGET - fixed bottom-right
+   AccessMenu's twin on the opposite corner: navy
+   panel, cream text, one orange accent, a single
+   WhatsApp CTA. No AI, no backend - a direct link.
+   ============================================ */
+.wa {
+  position: fixed;
+  right: clamp(16px, 3vw, 28px);
+  bottom: clamp(16px, 3vw, 28px);
+  /* above the rail (700), which owns the bottom-left corner on desktop */
+  z-index: 710;
+  font-family: var(--font-display);
+}
+@media (max-width: 1099px) {
+  /* clear the bottom tab bar on phones */
+  .wa { right: 14px; bottom: calc(94px + env(safe-area-inset-bottom, 0px)); }
+}
+
+.wa__button {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: var(--navy);
+  color: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--cream) 14%, transparent);
+  border-radius: var(--radius-circle);
+  box-shadow: 0 16px 38px -16px rgba(6, 12, 26, 0.6);
+  cursor: pointer;
+  transition:
+    transform var(--dur-med) var(--ease-spring),
+    box-shadow var(--dur-med) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .wa__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 48px -18px rgba(6, 12, 26, 0.7);
+  }
+}
+.wa__button:focus-visible,
+.wa__close:focus-visible,
+.wa__cta:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ---- panel ---- */
+.wa__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  width: min(300px, calc(100vw - 32px));
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--navy);
+  color: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--cream) 14%, transparent);
+  border-radius: 18px;
+  box-shadow: 0 30px 60px -20px rgba(6, 12, 26, 0.7);
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-med) var(--ease-spring);
+}
+.wa.is-open .wa__panel {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.wa__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wa__title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.wa__close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  background: color-mix(in srgb, var(--cream) 8%, transparent);
+  border: none;
+  border-radius: 9px;
+  color: color-mix(in srgb, var(--cream) 75%, transparent);
+  cursor: pointer;
+}
+.wa__close:hover {
+  background: color-mix(in srgb, var(--cream) 16%, transparent);
+  color: var(--cream);
+}
+
+.wa__body {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--cream) 82%, transparent);
+}
+
+.wa__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  background: #25D366;
+  color: #06331B;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.wa__cta:hover { filter: brightness(1.06); transform: translateY(-1px); }

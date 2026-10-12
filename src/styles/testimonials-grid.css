@@ -96,7 +96,7 @@
   color: #0B1120;
   background: var(--orange);
   box-shadow:
-    0 0 0 8px rgba(255, 122, 26, 0.22),
+    0 0 0 8px rgba(0, 210, 168, 0.22),
     0 18px 40px -14px rgba(0, 0, 0, 0.7);
   transform: translate(-50%, -50%);
   transition: transform 260ms var(--ease-spring), box-shadow 260ms var(--ease-out);
@@ -105,7 +105,7 @@
 .tgrid__cover:hover .tgrid__cover-play {
   transform: translate(-50%, -50%) scale(1.06);
   box-shadow:
-    0 0 0 12px rgba(255, 122, 26, 0.18),
+    0 0 0 12px rgba(0, 210, 168, 0.18),
     0 22px 44px -14px rgba(0, 0, 0, 0.75);
 }
 .tgrid__cover:focus-visible { outline: 2px solid var(--orange); outline-offset: -4px; }
@@ -231,7 +231,7 @@
 .tgrid__ledger {
   display: flex;
   flex-direction: column;
-  gap: clamp(10px, 1.4vh, 16px);
+  gap: clamp(8px, 1vh, 14px);
   min-height: 0;
   min-width: 0;
 }
@@ -259,11 +259,19 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.6),
     0 1px 2px rgba(6, 12, 26, 0.04),
     0 24px 50px -36px rgba(6, 12, 26, 0.45);
-  overflow: hidden;
+  /* Rows size to their own content, not a forced equal split - a fixed
+     1fr-per-row grid clipped or overlapped text the moment four rows of real
+     copy outgrew a short browser window. If the list is ever taller than the
+     space it is given, it scrolls on its own instead of the page. */
+  overflow: hidden auto;
+  scrollbar-width: thin;
 }
+.tgrid__clients::-webkit-scrollbar { width: 6px; }
+.tgrid__clients::-webkit-scrollbar-track { background: transparent; }
+.tgrid__clients::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
 @media (min-width: 1100px) {
   .tgrid__clients {
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: auto;
     flex: 1 1 auto;
   }
 }
@@ -272,8 +280,12 @@
   display: flex;
   align-items: center;
   gap: clamp(14px, 1.3vw, 22px);
-  min-height: 0;
-  padding: clamp(10px, 1.4vh, 20px) clamp(18px, 1.5vw, 28px);
+  /* A real floor, not 0: without it, flex/grid happily crushed every row
+     past its content's own height any time four rows of real copy outgrew a
+     short window, overlapping text across the divider instead of stopping.
+     Below this height .tgrid__clients scrolls on its own instead. */
+  min-height: 150px;
+  padding: clamp(14px, 1.9vh, 20px) clamp(18px, 1.5vw, 28px);
   overflow: hidden;
 }
 .tgrid__client + .tgrid__client { border-top: 1px solid var(--line); }
@@ -303,7 +315,7 @@
   width: clamp(48px, 3.4vw, 58px);
   height: clamp(48px, 3.4vw, 58px);
   border-radius: 14px;
-  background: var(--brands-chip-bg, #F4F4ED);
+  background: var(--brands-chip-bg, #C6CDCD);
   box-shadow: inset 0 0 0 1px var(--brands-chip-border, var(--line));
   color: var(--orange);
 }
@@ -313,7 +325,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(3px, 0.5vh, 6px);
+  gap: clamp(7px, 1vh, 10px);
   flex: 1 1 auto;
   min-width: 0;
   /* Keep the copy clear of the engraved index. */
@@ -340,8 +352,8 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--orange-ink);
-  background: rgba(255, 122, 26, 0.10);
-  box-shadow: inset 0 0 0 1px rgba(255, 122, 26, 0.22);
+  background: rgba(0, 210, 168, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(0, 210, 168, 0.22);
   white-space: nowrap;
 }
 /* No reserved line count here on purpose. The three lines are within ~10
@@ -349,7 +361,7 @@
    them that length if you edit the copy. */
 .tgrid__client-daily {
   font-size: clamp(12.5px, min(0.95vw, 1.8vh), 16.5px);
-  line-height: 1.5;
+  line-height: 1.42;
   max-width: 78ch;
   color: var(--muted);
 }

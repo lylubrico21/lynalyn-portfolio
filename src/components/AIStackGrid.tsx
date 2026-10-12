@@ -14,42 +14,39 @@ import { aiStack, type StackNode } from '@/data/ai-stack'
 type Tool = { name: string; src: string }
 
 const T = {
-  claude: { name: 'Claude', src: '/icons/ai/claude-color.svg' },
-  claudeCode: { name: 'Claude Code', src: '/icons/claude-code-logo.png' },
-  openai: { name: 'OpenAI Whisper', src: '/icons/openai.svg' },
-  elevenlabs: { name: 'ElevenLabs', src: '/icons/ai/elevenlabs.svg' },
-  node: { name: 'Node.js', src: '/icons/ai/nodedotjs.svg' },
-  telegram: { name: 'Telegram', src: '/icons/ai/telegram.svg' },
-  slack: { name: 'Slack', src: '/icons/slack.svg' },
-  postgres: { name: 'Postgres + pgvector', src: '/icons/ai/postgresql.svg' },
-  sqlite: { name: 'SQLite FTS5', src: '/icons/ai/sqlite.svg' },
-  nous: { name: 'Nous Hermes', src: '/icons/ai/hermes.svg' },
-  docker: { name: 'Docker', src: '/icons/ai/docker.svg' },
   ghl: { name: 'GoHighLevel', src: '/icons/gohighlevel.png' },
+  zapier: { name: 'Zapier', src: '/icons/zapier.png' },
+  asana: { name: 'Asana', src: '/icons/asana.svg' },
+  monday: { name: 'Monday.com', src: '/icons/monday.jpg' },
+  microsoft: { name: 'Microsoft', src: '/icons/microsoft.png' },
+  meta: { name: 'Meta', src: '/icons/meta.svg' },
+  semrush: { name: 'SEMrush', src: '/icons/semrush.svg' },
+  googleWorkspace: { name: 'Google Workspace', src: '/icons/googleworkspace.svg' },
+  slack: { name: 'Slack', src: '/icons/slack.svg' },
+  shopify: { name: 'Shopify', src: '/icons/shopify.svg' },
+  make: { name: 'Make', src: '/icons/make.png' },
+  wix: { name: 'Wix', src: '/icons/wix.svg' },
+  clickup: { name: 'ClickUp', src: '/icons/clickup.svg' },
 } satisfies Record<string, Tool>
 
 /** What each system runs on. Keyed by the node id in ai-stack.ts. These are
  *  example marks - swap them for what each of your systems is built on. */
 const TOOLS: Record<string, Tool[]> = {
-  'project-a': [T.claude],
-  'project-b': [T.claude, T.claudeCode],
-  'project-c': [T.node, T.elevenlabs, T.openai, T.telegram],
-  'project-d': [T.claude, T.claudeCode],
-  'project-e': [T.claude, T.postgres, T.slack],
-  'project-f': [T.claude, T.sqlite],
-  'project-g': [T.claude, T.ghl],
-  'project-h': [T.claude, T.elevenlabs],
-  'project-i': [T.claude],
-  'project-j': [T.nous, T.telegram, T.docker],
-  'project-k': [T.nous, T.telegram],
+  'project-a': [T.semrush, T.ghl, T.asana],
+  'project-b': [T.microsoft, T.ghl, T.meta],
+  'project-c': [T.ghl, T.googleWorkspace, T.zapier, T.make, T.monday, T.semrush, T.slack],
+  'project-d': [T.ghl, T.zapier, T.shopify, T.googleWorkspace, T.asana],
+  'project-e': [T.ghl, T.zapier],
+  'project-f': [T.ghl, T.zapier, T.make],
+  'project-g': [T.meta, T.ghl, T.wix, T.zapier, T.clickup],
 }
 
-/** The harnesses everything above is built with. */
+/** The tools everything above is built with. */
 const HARNESS: Tool[] = [
-  { name: 'Claude Code', src: '/icons/claude-code-logo.png' },
-  { name: 'Codex', src: '/icons/ai/codex.svg' },
-  { name: 'Cursor', src: '/icons/ai/cursor.svg' },
-  { name: 'Hermes', src: '/icons/ai/hermes.svg' },
+  { name: 'GoHighLevel', src: '/icons/gohighlevel.png' },
+  { name: 'Zapier', src: '/icons/zapier.png' },
+  { name: 'Asana', src: '/icons/asana.svg' },
+  { name: 'Monday.com', src: '/icons/monday.jpg' },
 ]
 
 type Group = { title: string; what: string; systems: StackNode[] }
@@ -102,7 +99,7 @@ export default function AIStackGrid() {
     <div className="aig">
       <header className="aig__head">
         <div className="aig__head-text">
-          <span className="aig__eyebrow">Placeholder category</span>
+          <span className="aig__eyebrow">Client systems</span>
           <h3 className="aig__title">{aiStack.what}</h3>
         </div>
         <div className="aig__harness" aria-label="Built with">

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freedom Hill Real Estate - Case study</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --page: #c6cdcd;
+    --paper: #fbfbf7;
+    --ink: #0b1e3f;
+    --muted: #5a6479;
+    --line: rgba(11, 30, 63, 0.12);
+    --tint: #f2f4f3;
+    --accent: #00d2a8;
+    --accent-soft: #e0faf5;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #070b14;
+      --paper: #0b1120;
+      --ink: #edf0f6;
+      --muted: #a2a6b4;
+      --line: rgba(255, 255, 255, 0.09);
+      --tint: #161e30;
+      --accent-soft: #001511;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc {
+    max-width: 760px; margin: 40px auto; padding: 56px 48px 80px;
+    background: var(--paper); border-radius: 24px;
+    box-shadow: 0 30px 80px -30px rgba(6, 12, 26, 0.28);
+  }
+  @media (max-width: 680px) {
+    .doc { margin: 0; border-radius: 0; padding: 40px 20px 60px; box-shadow: none; }
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    padding: 7px 10px; border-radius: 999px;
+  }
+  .tag svg { width: 12px; height: 12px; }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; letter-spacing: -.02em; margin: 18px 0 12px; }
+  .lede { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 58ch; }
+  .meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 44px; }
+  .meta div { background: var(--tint); padding: 14px 16px; }
+  .meta span { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .meta b { font-weight: 600; font-size: 15px; }
+  h2 { font-size: 22px; letter-spacing: -.01em; margin: 44px 0 10px; display: flex; gap: 12px; align-items: baseline; }
+  h2 i { font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; font-style: normal; color: var(--accent); }
+  p { margin: 0 0 12px; }
+  .hint {
+    border: 1px dashed var(--line); background: var(--tint);
+    border-radius: var(--radius); padding: 14px 16px; color: var(--muted); font-size: 15px;
+  }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
+  .flow span {
+    border: 1px solid var(--line); background: var(--tint);
+    border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 500;
+  }
+  .flow span.on { border-color: var(--accent); color: var(--accent); }
+  .flow em { align-self: center; color: var(--muted); font-style: normal; }
+  ul.list { padding-left: 20px; margin: 8px 0 0; color: var(--muted); }
+  ul.list li { margin: 4px 0; }
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  @media (max-width: 560px) { .meta { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <main class="doc">
+    <span class="tag">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9 1.5V5h4"/></svg>
+      <span>Case study</span>
+    </span>
+    <h1>Freedom Hill Real Estate: from bottleneck to 180 clients.</h1>
+    <p class="lede">A North Carolina land investment company helping landowners and investors buy and sell vacant land, until its own agent became the bottleneck.</p>
+
+    <div class="meta">
+      <div><span>Client</span><b>Freedom Hill Real Estate</b></div>
+      <div><span>Timeline</span><b>Multi-month engagement</b></div>
+      <div><span>Outcome</span><b>20 to 50 clients/month to about 180</b></div>
+    </div>
+
+    <h2><i>01</i>The problem</h2>
+    <div class="hint">Adrien was managing the North Carolina branch with about 20 to 50 clients a month when he became the massive bottleneck in the company. Even with a team behind him, he was still heavily involved in client management, straining operations, marketing, and converting sales.</div>
+
+    <h2><i>02</i>The plan</h2>
+    <p class="hint">Start with the onboarding process, transformed so it could be delegated to the team. Add systems automation for better reporting, communication, and free time. Then build a CRM that does everything: funnels, campaigns, workflows, and a KPI dashboard for 90 days of ad performance.</p>
+    <div class="flow" aria-label="Example flow">
+      <span>Delegated onboarding</span><em>&rarr;</em>
+      <span>Systems automation</span><em>&rarr;</em>
+      <span>CRM + chatbots</span><em>&rarr;</em>
+      <span class="on">180 clients</span>
+    </div>
+
+    <h2><i>03</i>What was built</h2>
+    <div class="hint">The pieces delivered to take Adrien out of the bottleneck.</div>
+    <ul class="list">
+      <li>Delegated onboarding process for the team</li>
+      <li>Systems automation for reporting, communication, and free time</li>
+      <li>A done-for-you CRM: funnels, campaigns, and workflows, with leads and surveys monitored daily</li>
+      <li>Facebook, Instagram, website, and Google My Business integrated so no lead is missed</li>
+      <li>KPI dashboard for 90 days of ad performance</li>
+      <li>Smart chatbots across the website and socials</li>
+    </ul>
+
+    <h2><i>04</i>Results</h2>
+    <div class="hint">Because of the systems automation and the done-for-you CRM, Adrien is now sitting at about 180 clients, qualified with the help of the smart chatbots integrated into the system, website, and social platforms.</div>
+
+    <footer>GoHighLevel, Chatbots, Zapier, Make.</footer>
+  </main>
+</body>
+</html>

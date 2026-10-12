@@ -72,7 +72,30 @@ export function useLenis() {
       // scroller. Passing a non-scrolling wrapper freezes the page.
       const panel = getScroller()
       const usesPanel = !!panel && window.innerWidth >= 1100
-      const content = panel?.firstElementChild as HTMLElement | undefined
+
+      // The route's content is lazy-loaded (see main.tsx), so on a direct
+      // load the panel can still be empty (Suspense fallback is null) at
+      // this point. Capturing `content` as undefined here would make Lenis
+      // fall back to controlling window scroll while the real scroller
+      // (`panel`, which still has its own native overflow) never gets the
+      // wheel input - the page reads as completely frozen. Wait for the
+      // real child to mount before handing it to Lenis.
+      const waitForContent = (el: HTMLElement): Promise<HTMLElement> =>
+        new Promise((resolve) => {
+          if (el.firstElementChild) {
+            resolve(el.firstElementChild as HTMLElement)
+            return
+          }
+          const observer = new MutationObserver(() => {
+            if (el.firstElementChild) {
+              observer.disconnect()
+              resolve(el.firstElementChild as HTMLElement)
+            }
+          })
+          observer.observe(el, { childList: true })
+        })
+      const content = usesPanel && panel ? await waitForContent(panel) : undefined
+      if (cancelled) return
 
       const lenis = new Lenis({
         ...(usesPanel && content ? { wrapper: panel, content } : {}),
@@ -85,6 +108,11 @@ export function useLenis() {
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 1.5,
+        // A handful of panels (the testimonials ledger, etc.) scroll on their
+        // own when their content outgrows a short window. Without this, Lenis
+        // still claims every wheel event over them for the outer panel, and
+        // the nested list never receives native scroll input at all.
+        prevent: (node) => !!node.closest?.('[data-lenis-prevent]'),
       })
 
       // Hand every Lenis scroll update to ScrollTrigger.

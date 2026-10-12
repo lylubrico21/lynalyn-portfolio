@@ -79,7 +79,7 @@
   border-radius: 11px;
   background: var(--orange);
   color: var(--white);
-  box-shadow: 0 8px 18px -10px rgba(255, 122, 26, 0.9);
+  box-shadow: 0 8px 18px -10px rgba(0, 210, 168, 0.9);
   transition: transform var(--dur-med) var(--ease-spring);
 }
 .bento__card:hover .bento__icon { transform: translateY(-2px) rotate(-4deg); }
@@ -168,13 +168,27 @@
   object-position: top;
   border-radius: 7px;
 }
+/* App logos are marks on their own plate, not screenshots - cropping them
+   like a page would cut the wordmark off. Show the whole logo, centered. */
+.bento__shot--app {
+  background: color-mix(in srgb, var(--app-color) 10%, var(--white));
+}
+.bento__shot--app img {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  padding: 10%;
+  background: none;
+}
 @keyframes bento-drift-up {
   from { transform: translateY(0); }
   to   { transform: translateY(-50%); }
 }
 
-/* About: three photos fanned like a hand of cards. */
-.bento__fan { display: grid; place-items: center; }
+/* About: three photos fanned like a hand of cards. overflow:hidden is load-
+   bearing: on a squeezed card the fanned photos are taller than this box,
+   and without it they bled upward past their own container into the
+   description text sitting right above. */
+.bento__fan { display: grid; place-items: center; overflow: hidden; min-height: 96px; }
 .bento__photo {
   grid-area: 1 / 1;
   display: block;

@@ -1,8 +1,14 @@
 /* ============================================
-   PROJECTS - the fixed viewport
-   A head and six cards on one screen, same object language as Home's bento:
-   raised paper, 1px border, plated icon tile, orange for the index and the
-   arrow. Each card opens the real section in the dialog below.
+   PROJECTS - scrolls, same object language as Home's bento: raised paper,
+   1px border, plated icon tile, orange for the index and the arrow. Each
+   card opens the real section in the dialog below.
+
+   This used to be a fixed, no-scroll viewport like Home. Seven real cards
+   - screenshots, multi-line case studies, logo reels - outgrew that single
+   screen, and forcing them into it was what clipped and cramped every card
+   no matter how each one was tuned individually. The panel scrolls here
+   now (see App.tsx's FIXED_ROUTES) and the grid below sizes its rows to
+   content instead of splitting a fixed height two ways.
    ============================================ */
 .pgrid {
   display: flex;
@@ -12,12 +18,7 @@
   min-width: 0;
 }
 @media (min-width: 1100px) {
-  .pgrid {
-    height: 100%;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    min-height: 0;
-  }
+  .pgrid { padding-top: clamp(40px, 6vh, 76px); }
 }
 
 .pgrid__head { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
@@ -74,9 +75,29 @@
 }
 .pgrid__hint svg { color: var(--orange); }
 @media (min-width: 1100px) {
-  .pgrid__glass { height: 100%; display: flex; }
-  .bento--projects { flex: 1 1 auto; height: 100%; }
+  .pgrid__glass { display: flex; }
+  .bento--projects { flex: 1 1 auto; }
   .bento__card--wide { grid-column: span 2; }
+  /* Apps and tools is the one card alone in its row - span 2 left it
+     sitting next to a wide stretch of empty background. Full width uses
+     that space instead of wasting it. */
+  .bento__card--wide.bento__card--full { grid-column: span 4; }
+  /* .bento's shared base forces exactly two equal-fraction rows - right for
+     Home's fixed six-card grid, wrong here: Projects has grown past that
+     card count and every row was splitting a fixed height instead of
+     sizing to what its own cards actually need. Auto rows, sized to
+     content, now that the page can scroll instead of hiding the rest. */
+  .bento--projects { grid-template-rows: none; grid-auto-rows: auto; }
+  /* The looping reel/fan/chip tracks are built to drift inside a small
+     fixed window, not to lay out at their full natural height - without a
+     row forcing their size, a track with a dozen stacked screenshots
+     rendered at its full scroll height and blew the row up to match. Cap
+     them here the same way the sub-1100px layout already does. */
+  .bento--projects .bento__reel,
+  .bento--projects .bento__reviews,
+  .bento--projects .bento__fan,
+  .bento--projects .bento__chips,
+  .bento--projects .bento__badge { max-height: 230px; }
 }
 .bento__card--btn {
   font: inherit;
@@ -90,7 +111,16 @@
 @media (min-width: 1100px) {
   .bento__card--wide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 14px; }
   .bento__card--wide .bento__media { margin-top: 0; grid-row: 1; grid-column: 2; }
+  /* Apps and tools: the head (icon, title, two-line desc) needs far less
+     width than the other wide cards' copy, so an even split left the logo
+     reel cramped - one full mark and a sliver of the next. Give the reel
+     the width the head doesn't need. */
+  .bento__card--wide[data-id='apps'] { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); }
 }
+/* Pages and sites: the card has more room than its two-line desc and the
+   fanned photos need between them, so give that slack to breathing room
+   instead of leaving it unused. */
+.bento__card[data-id='funnels'] .bento__media { margin-top: clamp(14px, 2.4vh, 26px); }
 @media (max-width: 1099px) {
   .bento__card--wide { display: flex; flex-direction: column; }
   /* The floating pill is fixed at the top of the document down here, so the
@@ -129,6 +159,9 @@
   background: var(--white);
   box-shadow: inset 0 0 0 1px var(--line);
   overflow: hidden;
+  /* A real floor: without it the flow chips (the actual content) got
+     squeezed shorter than their own text and clipped mid-word. */
+  min-height: 92px;
 }
 .bento__doc-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange-ink); }
 .bento__doc-title { font-size: clamp(13px, 0.9vw, 15px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; color: var(--navy); }
@@ -170,7 +203,7 @@
   width: 38px;
   height: 38px;
   border-radius: 11px;
-  background: rgba(255, 122, 26, 0.12);
+  background: rgba(0, 210, 168, 0.12);
   color: var(--orange);
 }
 .bento__build-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
@@ -454,7 +487,7 @@
   color: #EDF0F6;
 }
 .aig__head-text { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-.aig__eyebrow { font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: #FF9A4D; }
+.aig__eyebrow { font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: #4DE0C2; }
 .aig__title { font-size: clamp(18px, 1.5vw, 26px); font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; max-width: 34ch; }
 .aig__harness { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .aig__harness-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(237, 240, 246, 0.6); margin-right: 4px; }

@@ -113,7 +113,7 @@ const frag = `
     float line    = 1.0 - smoothstep(0.0, w, dist);
 
     // Theme colors (kept identical to v1 so the rest of the page does not shift).
-    vec3 bgLight   = vec3(0.957, 0.957, 0.929); // #F4F4ED cream
+    vec3 bgLight   = vec3(0.776, 0.804, 0.804); // #C6CDCD cream
     vec3 lineLight = vec3(0.46,  0.46,  0.46);  // soft neutral gray contour on cream
     vec3 bgDark    = vec3(0.024, 0.047, 0.102); // #060C1A navy ink
     vec3 lineDark  = vec3(1.0,   1.0,   1.0);   // solid white on navy (black would be invisible)
@@ -178,12 +178,12 @@ export default function HeroCanvasV2() {
     // the visitor actually flips the switch.
     const darkMix = { value: getTheme() === 'dark' ? 1 : 0 }
     let targetDark = darkMix.value
-    renderer.setClearColor(darkMix.value ? 0x070b14 : 0xf4f4ed, 1)
+    renderer.setClearColor(darkMix.value ? 0x070b14 : 0xc6cdcd, 1)
 
     const onThemeChange = () => {
       const dark = getTheme() === 'dark'
       targetDark = dark ? 1 : 0
-      renderer.setClearColor(dark ? 0x070b14 : 0xf4f4ed, 1)
+      renderer.setClearColor(dark ? 0x070b14 : 0xc6cdcd, 1)
     }
     window.addEventListener('themechange', onThemeChange)
 

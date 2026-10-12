@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
-import { ArrowUpRight, X, Ticket, Robot, FlowArrow, CursorClick } from '@/components/slab'
+import { ArrowUpRight, X, Hospital, Buildings, Storefront, CursorClick, Kanban } from '@/components/slab'
 import { FlowIcon, PlanIcon, GlobeIcon, SparkIcon, DeviceIcon } from './ProjectIcons'
-import { AutomationsPanel, PlanPanel, TicketingPanel, FrameworkPanel, WorkflowPanel, BarrelPanel, AIWindow, AppsWindow } from './ProjectPanels'
+import { AutomationsPanel, OpsPanel, PlanPanel, TicketingPanel, FrameworkPanel, WorkflowPanel, BarrelPanel, AIWindow, AppsWindow } from './ProjectPanels'
 import { gymFunnel, bookingFunnel, websiteFunnel, type Funnel } from '@/data/funnels'
 import { mobileApps } from '@/data/projects'
 import { aiStack, type StackNode } from '@/data/ai-stack'
@@ -25,7 +25,7 @@ type Project = {
   Icon: ComponentType<{ size?: number }>
   eyebrow: string
   Section: ComponentType
-  span?: 2
+  span?: 2 | 4
   /** Open Builds style: a small orange kicker above the title. */
   kicker?: string
   /** Real marks of what the work was built in; replaces the icon tile. */
@@ -46,34 +46,40 @@ const FILTERS: { key: Cat | 'all'; label: string }[] = [
 
 /** Example tool marks, from public/icons. Swap for what you build with. */
 const GHL = '/icons/gohighlevel.png'
-const CLAUDE_CODE = '/icons/claude-code-logo.png'
-const CODEX = '/icons/ai/codex.svg'
-const HERMES = '/icons/ai/hermes.svg'
-const PLAY = '/icons/ai/googleplay.svg'
-const CHROME = '/icons/ai/googlechrome.svg'
-const EXPO = '/icons/ai/expo.svg'
+const ZAPIER = '/icons/zapier.png'
+const ASANA = '/icons/asana.svg'
+const MONDAY = '/icons/monday.jpg'
 
-const WF_SHOTS = ['project-1.jpg', 'project-2.jpg', 'project-3.jpg', 'project-4.jpg'].map(
-  (f) => `/placeholders/${f}`,
-)
+const WF_SHOTS = [
+  'ghl-assets.jpg',
+  'ghl-auto-tag-contact.jpg',
+  'ghl-new-lead-intro.jpg',
+  'ghl-estimate-sent.jpg',
+  'ghl-work-order-schedule.jpg',
+  'ghl-job-complete.jpg',
+  'ghl-final-invoice-payment.jpg',
+  'ghl-ce-workflows-list.jpg',
+  'ghl-home-workflows-list.jpg',
+  'ghl-funnels-list.jpg',
+  'ghl-opportunities-pipeline.jpg',
+].map((f) => `/placeholders/${f}`)
+
+const OPS_SHOTS = [
+  { file: 'monday-client-starter.jpg', label: 'Client Starter Pipeline' },
+  { file: 'monday-websites-board.jpg', label: 'Website Build Workflow' },
+  { file: 'monday-creative-requests.jpg', label: 'Creative Request Desk' },
+  { file: 'monday-team-dashboard.jpg', label: 'Team Progress Dashboard' },
+]
 
 const FUNNEL_SHOTS = [gymFunnel[0], bookingFunnel[0], websiteFunnel[0]].filter(Boolean)
 const thumbSrc = (f: Funnel) => `/${f.dir ?? 'funnels'}/thumbs/${f.file.replace('.html', '.jpeg')}`
 
-const APP_SHOTS = [
-  ...mobileApps.map((a) => a.imageSrc).filter((s): s is string => !!s),
-  '/placeholders/extension-1.jpg',
-  '/placeholders/extension-2.jpg',
-]
-
-const BUILD_DESC = 'PLACEHOLDER - tell me what to put here: two lines on what this project is and the result it got.'
-
 /** The three featured builds: each its own card in the stack, each its own
  *  pop-up. */
 const BUILDS: Project[] = [
-  { id: 'ticketing', cat: 'work', index: '03', kicker: 'Placeholder category', title: 'Featured Project One', desc: BUILD_DESC, Icon: () => <Ticket size={20} weight="duotone" />, logos: [GHL], eyebrow: 'Featured build', Section: TicketingPanel, Preview: () => null },
-  { id: 'framework', cat: 'ai', index: '04', kicker: 'Placeholder category', title: 'Featured Project Two', desc: BUILD_DESC, Icon: () => <Robot size={20} weight="duotone" />, logos: [CLAUDE_CODE], eyebrow: 'Featured build', Section: FrameworkPanel, Preview: () => null },
-  { id: 'workflow', cat: 'ai', index: '05', kicker: 'Placeholder category', title: 'Featured Project Three', desc: BUILD_DESC, Icon: () => <FlowArrow size={20} weight="duotone" />, logos: [CLAUDE_CODE, CODEX, HERMES], eyebrow: 'Featured build', Section: WorkflowPanel, Preview: () => null },
+  { id: 'ticketing', cat: 'work', index: '03', kicker: 'Healthcare', title: 'Bernardino Private Hospital', desc: 'Registration and onboarding automated across 3 hospital branches, cutting a 1 to 3 day process to 20 to 30 minutes.', Icon: () => <Hospital size={20} weight="duotone" />, eyebrow: 'Featured build', Section: TicketingPanel, Preview: () => null },
+  { id: 'framework', cat: 'work', index: '04', kicker: 'Real Estate', title: 'Freedom Hill Real Estate', desc: 'A one-agent bottleneck turned into a done-for-you CRM running about 180 qualified clients a month.', Icon: () => <Buildings size={20} weight="duotone" />, eyebrow: 'Featured build', Section: FrameworkPanel, Preview: () => null },
+  { id: 'workflow', cat: 'work', index: '05', kicker: 'Franchise & Retail', title: 'Donut Park PH', desc: 'Warehouse, supply chain, ordering, and accounting systems built as COO, scaling the franchise from 54 to 220 branches in 11 months.', Icon: () => <Storefront size={20} weight="duotone" />, eyebrow: 'Featured build', Section: WorkflowPanel, Preview: () => null },
 ]
 
 const leaves = (n: StackNode): StackNode[] => (n.children?.length ? n.children.flatMap(leaves) : [n])
@@ -95,20 +101,31 @@ function WorkflowsPreview() {
   )
 }
 
+function OpsPreview() {
+  const shots = OPS_SHOTS.map((s) => `/placeholders/${s.file}`)
+  return (
+    <div className="bento__media bento__reel" aria-hidden="true">
+      <div className="bento__reel-track">
+        {[...shots, ...shots].map((src, i) => (
+          <span key={i} className="bento__shot">
+            <img src={src} alt="" loading="lazy" decoding="async" />
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /** A paper mock of the plan document, the way SamplePlan previews it. */
 function PlanPreview() {
   return (
     <div className="bento__media bento__doc" aria-hidden="true">
-      <span className="bento__doc-eyebrow">Placeholder document</span>
-      <span className="bento__doc-title">Your document title here.</span>
+      <span className="bento__doc-eyebrow">Case study</span>
+      <span className="bento__doc-title">Practice Growth Partners</span>
       <span className="bento__doc-flow">
-        <i>Step</i>
-        <i>Step</i>
-        <i>Step?</i>
-        <i className="is-on">Result</i>
+        <i>Booking</i>
+        <i className="is-on">Playbook</i>
       </span>
-      <span className="bento__doc-line" />
-      <span className="bento__doc-line bento__doc-line--short" />
     </div>
   )
 }
@@ -151,9 +168,21 @@ function AppsPreview() {
   return (
     <div className="bento__media bento__reel bento__reel--row" aria-hidden="true">
       <div className="bento__reel-track">
-        {[...APP_SHOTS, ...APP_SHOTS].map((src, i) => (
-          <span key={i} className="bento__shot bento__shot--app">
-            <img src={src} alt="" loading="lazy" decoding="async" />
+        {[...mobileApps, ...mobileApps].map((app, i) => (
+          <span
+            key={`${app.name}-${i}`}
+            className="bento__shot bento__shot--app"
+            style={{ ['--app-color' as string]: app.accentColor }}
+          >
+            {app.imageSrc ? (
+              <img src={app.imageSrc} alt="" loading="lazy" decoding="async" />
+            ) : (
+              <span className="app-card__img-placeholder">
+                <span className="app-card__img-initials">
+                  {app.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}
+                </span>
+              </span>
+            )}
           </span>
         ))}
       </div>
@@ -162,11 +191,12 @@ function AppsPreview() {
 }
 
 const PROJECTS: Project[] = [
-  { id: 'workflows', cat: 'work', index: '01', title: 'Project Title', desc: 'PLACEHOLDER - tell me what to put here: what these screens show.', Icon: FlowIcon, logos: [GHL], eyebrow: 'Screenshots', Section: AutomationsPanel, span: 2, Preview: WorkflowsPreview },
-  { id: 'plan', cat: 'work', index: '02', title: 'Sample Document', desc: 'PLACEHOLDER - tell me what to put here: the document this opens.', Icon: PlanIcon, logos: [GHL], eyebrow: 'Sample document', Section: PlanPanel, Preview: PlanPreview },
-  { id: 'funnels', cat: 'sites', index: '06', title: 'Pages and sites', desc: 'PLACEHOLDER - the pages in this reel. Spin the reel.', Icon: GlobeIcon, logos: [GHL], eyebrow: 'Pages and sites', Section: BarrelPanel, Preview: FunnelsPreview },
-  { id: 'ai', cat: 'ai', index: '07', title: 'Your systems title here', desc: 'PLACEHOLDER - tell me what to put here: the systems you run.', Icon: SparkIcon, logos: [CLAUDE_CODE, CODEX, HERMES], eyebrow: 'Your systems', Section: AIWindow, Preview: AIPreview },
-  { id: 'apps', cat: 'apps', index: '08', title: 'Apps and tools', desc: 'PLACEHOLDER - tell me what to put here: the apps and tools you ship.', Icon: DeviceIcon, logos: [PLAY, EXPO, CHROME], eyebrow: 'Your apps', Section: AppsWindow, span: 2, Preview: AppsPreview },
+  { id: 'workflows', cat: 'work', index: '01', title: 'HighLevel Automations', desc: 'Christmas Elves (lighting company): the full lead acquisition system, from first lead to booked appointment, plus employee hiring and training.', Icon: FlowIcon, logos: [GHL], eyebrow: 'Screenshots', Section: AutomationsPanel, span: 2, Preview: WorkflowsPreview },
+  { id: 'plan', cat: 'work', index: '02', title: 'Agency Playbook', desc: 'Practice Growth Partners: the playbook that scaled a medical marketing agency from 48 to 250+ clinics.', Icon: PlanIcon, eyebrow: 'Case study', Section: PlanPanel, Preview: PlanPreview },
+  { id: 'funnels', cat: 'sites', index: '06', title: 'Pages and sites', desc: 'Real client sites, from a donut franchise to a Dubai fashion school. Spin the reel to open one full size.', Icon: GlobeIcon, eyebrow: 'Pages and sites', Section: BarrelPanel, Preview: FunnelsPreview },
+  { id: 'ai', cat: 'ai', index: '07', title: 'Systems I run for clients', desc: 'Healthcare, franchise retail, real estate, and education - a look at the automations running inside real businesses.', Icon: SparkIcon, logos: [GHL, ZAPIER, ASANA, MONDAY], eyebrow: 'Client systems', Section: AIWindow, Preview: AIPreview },
+  { id: 'ops', cat: 'work', index: '08', title: 'Project & Ops Management', desc: 'Built from scratch migrating a client off Asana onto Monday.com: a per-department dashboard for client pipeline, sales, marketing, website, and design.', Icon: Kanban, logos: [MONDAY], eyebrow: 'Screenshots', Section: OpsPanel, span: 2, Preview: OpsPreview },
+  { id: 'apps', cat: 'apps', index: '09', title: 'Apps and tools', desc: 'DelegateMate CRM, DelegateSuite, and Lyly AI: internal tools built solo to skip costly subscriptions.', Icon: DeviceIcon, eyebrow: 'Built for myself', Section: AppsWindow, span: 4, Preview: AppsPreview },
 ]
 
 /** The icon tile, or the real marks stacked horizontally in its place. */
@@ -300,9 +330,9 @@ export default function ProjectsGrid() {
       <header className="pgrid__head">
         <span className="pgrid__eyebrow">Projects</span>
         <h1 className="pgrid__title" id="projects-title">
-          Your projects headline goes right here.
+          The systems behind the scenes.
         </h1>
-        <p className="pgrid__lede">PLACEHOLDER - tell me what to put here: one line on the work below. Open a card to see it full size.</p>
+        <p className="pgrid__lede">Automations, documents, sites, and tools built to keep the business running without you. Open a card to see it full size.</p>
       </header>
 
       {phone && (
@@ -333,7 +363,7 @@ export default function ProjectsGrid() {
             <Fragment key={p.id}>
             <button
               type="button"
-              className={`bento__card bento__card--btn${p.span === 2 ? ' bento__card--wide' : ''}`}
+              className={`bento__card bento__card--btn${p.span ? ' bento__card--wide' : ''}${p.span === 4 ? ' bento__card--full' : ''}`}
               data-id={p.id}
               onClick={(e) => show(p, e.currentTarget)}
               aria-haspopup="dialog"

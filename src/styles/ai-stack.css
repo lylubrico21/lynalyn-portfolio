@@ -181,10 +181,10 @@
 .ai-stack__node.is-dim { opacity: 0.32; }
 
 .ai-stack__node.is-lit {
-  border-color: rgba(255, 122, 26, 0.45);
+  border-color: rgba(0, 210, 168, 0.45);
   box-shadow:
     0 18px 44px -24px rgba(11, 30, 63, 0.32),
-    0 0 0 1px rgba(255, 122, 26, 0.22);
+    0 0 0 1px rgba(0, 210, 168, 0.22);
 }
 
 .ai-stack__node--root.is-lit { border-color: transparent; }
@@ -216,7 +216,7 @@
   width: 26px;
   height: 26px;
   border-radius: var(--radius-circle);
-  background: rgba(255, 122, 26, 0.16);
+  background: rgba(0, 210, 168, 0.16);
   color: var(--orange);
 }
 
@@ -232,7 +232,7 @@
 /* The lit subtree is the one place a mark takes the accent, which is what
    makes the highlight land on the glyph as well as the border. */
 .ai-stack__node.is-lit .ai-stack__mark {
-  background: rgba(255, 122, 26, 0.18);
+  background: rgba(0, 210, 168, 0.18);
   color: var(--orange-ink);
 }
 
@@ -327,7 +327,7 @@
 
 .ai-stack__status--live {
   color: var(--orange-ink);
-  background: rgba(255, 122, 26, 0.14);
+  background: rgba(0, 210, 168, 0.14);
 }
 
 .ai-stack__status--internal {
@@ -343,7 +343,7 @@
 
 .ai-stack__node--root .ai-stack__status--live {
   color: var(--orange-hover);
-  background: rgba(255, 122, 26, 0.2);
+  background: rgba(0, 210, 168, 0.2);
 }
 
 .ai-stack__node--root .ai-stack__status--internal,
@@ -412,7 +412,7 @@
    screen reader hears and the state the caret shows cannot drift apart. */
 .ai-stack__toggle[aria-expanded='true'] .ai-stack__caret {
   transform: rotate(180deg);
-  background: rgba(255, 122, 26, 0.14);
+  background: rgba(0, 210, 168, 0.14);
   color: var(--orange-ink);
 }
 

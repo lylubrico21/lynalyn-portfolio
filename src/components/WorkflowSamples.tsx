@@ -7,7 +7,8 @@ import { X } from '@/components/slab'
  *
  * A horizontally scrolling marquee of project screenshots. The strip loops
  * seamlessly; clicking any frame opens the full image in a faux macOS window
- * over the page. Swap the images in SAMPLES for your own.
+ * over the page. Pass your own `samples` / `caption` / `basePath` to reuse it
+ * for a different project; omit them for the Christmas Elves defaults.
  *
  * Marquee: the list is duplicated so the CSS keyframe can translate -50% and
  * land the reset on a seamless seam. The track pauses on hover/focus so frames
@@ -19,19 +20,41 @@ import { X } from '@/components/slab'
  * the trigger on close - the same pattern as the other in-page previews.
  */
 
-type Sample = { file: string; label: string }
+export type Sample = { file: string; label: string }
 
-const SAMPLES: Sample[] = [
-  { file: 'project-1.jpg', label: 'Project Screenshot 1' },
-  { file: 'project-2.jpg', label: 'Project Screenshot 2' },
-  { file: 'project-3.jpg', label: 'Project Screenshot 3' },
-  { file: 'project-4.jpg', label: 'Project Screenshot 4' },
+const DEFAULT_SAMPLES: Sample[] = [
+  { file: 'ghl-assets.jpg', label: 'Zapier Assets' },
+  { file: 'ghl-auto-tag-contact.jpg', label: 'Auto Tag New Contact' },
+  { file: 'ghl-new-lead-intro.jpg', label: 'New Lead Residential Intro' },
+  { file: 'ghl-estimate-sent.jpg', label: 'Estimate Sent Webhook' },
+  { file: 'ghl-work-order-schedule.jpg', label: 'Work Order Schedule Webhook' },
+  { file: 'ghl-job-complete.jpg', label: 'Job Complete Webhook' },
+  { file: 'ghl-final-invoice-payment.jpg', label: 'Final Invoice + Final Payment Webhook' },
+  { file: 'ghl-ce-workflows-list.jpg', label: 'Christmas Elves Restructure, Full Workflow List' },
+  { file: 'ghl-home-workflows-list.jpg', label: 'Home Workflows: Quick Wins & Ad Conversions' },
+  { file: 'ghl-funnels-list.jpg', label: 'Funnels: Installations, Reviews & Quotes' },
+  { file: 'ghl-opportunities-pipeline.jpg', label: 'Sales Pipeline: 219 Opportunities' },
 ]
 
-const srcOf = (s: Sample) => `/placeholders/${encodeURIComponent(s.file)}`
+const DEFAULT_CAPTION = 'Christmas Elves (lighting company): lead to booked appointment, plus employee hiring and training.'
 
-export default function WorkflowSamples() {
-  const doubled = useMemo(() => [...SAMPLES, ...SAMPLES], [])
+type Props = {
+  samples?: Sample[]
+  caption?: string
+  /** Where the sample files live, e.g. '/placeholders/' or '/apps/delegatesuite/'. */
+  basePath?: string
+  /** Unique id for the caption heading, so two strips on one page don't clash. */
+  id?: string
+}
+
+export default function WorkflowSamples({
+  samples = DEFAULT_SAMPLES,
+  caption = DEFAULT_CAPTION,
+  basePath = '/placeholders/',
+  id = 'workflow-samples',
+}: Props) {
+  const srcOf = useCallback((s: Sample) => `${basePath}${encodeURIComponent(s.file)}`, [basePath])
+  const doubled = useMemo(() => [...samples, ...samples], [samples])
 
   const [active, setActive] = useState<Sample | null>(null)
   const lastTriggerRef = useRef<HTMLElement | null>(null)
@@ -62,15 +85,15 @@ export default function WorkflowSamples() {
   }, [active, close])
 
   return (
-    <section className="wfs" id="workflow-samples" aria-labelledby="wfs-heading" data-reveal>
-      <p className="wfs__caption" id="wfs-heading">
-        PLACEHOLDER - tell me what to put here: one line on what these screenshots show.
+    <section className="wfs" id={id} aria-labelledby={`${id}-heading`} data-reveal>
+      <p className="wfs__caption" id={`${id}-heading`}>
+        {caption}
       </p>
 
       <div className="wfs__strip">
         <div className="wfs__track">
           {doubled.map((s, i) => {
-            const clone = i >= SAMPLES.length
+            const clone = i >= samples.length
             return (
               <button
                 key={`${s.file}-${i}`}

@@ -7,6 +7,12 @@ export type Funnel = {
   desc: string
   /** Public subfolder the HTML + thumbnail live under. Default 'funnels'. */
   dir?: 'funnels' | 'samples'
+  /** Full-page screenshot shown in the modal instead of an iframe - for real,
+   *  live sites that can't be embedded (most block framing). When set, the
+   *  modal scrolls the image instead of loading `file`. */
+  image?: string
+  /** Shown in the modal's fake address bar in place of the local file path. */
+  siteUrl?: string
 }
 
 /**
@@ -25,14 +31,6 @@ const funnel = (n: string, tag: FunnelTag): Funnel => ({
   desc: 'PLACEHOLDER - tell me what to put here: who this page was for and what it does.',
 })
 
-const site = (n: string): Funnel => ({
-  file: `placeholder-site-${n}.html`,
-  label: `Placeholder Website ${n}`,
-  tag: 'Website',
-  desc: 'PLACEHOLDER - tell me what to put here: the client, the industry, and what the site had to do.',
-  dir: 'samples',
-})
-
 export const gymFunnel: Funnel[] = [
   funnel('01', 'Lead Capture'),
   funnel('02', 'Checkout'),
@@ -45,7 +43,33 @@ export const bookingFunnel: Funnel[] = [
   funnel('06', 'Booking'),
 ]
 
-export const websiteFunnel: Funnel[] = ['01', '02', '03', '04', '05', '06'].map(site)
+export const websiteFunnel: Funnel[] = [
+  {
+    file: 'donut-park.html',
+    label: 'Donut Park PH',
+    tag: 'Website',
+    desc: 'Franchise bakeshop site: menu, customer testimonials, branch locator, and franchise inquiries.',
+    dir: 'samples',
+    image: '/samples/donut-park-full.jpg',
+  },
+  {
+    file: 'fad-institute.html',
+    label: 'FAD Institute of Luxury Fashion & Style',
+    tag: 'Website',
+    desc: 'Fashion school site for a Dubai design institute: course catalog, press, gallery, and an inquiry form.',
+    dir: 'samples',
+    image: '/samples/fad-institute-full.jpg',
+  },
+  {
+    file: 'sweet-dough-bakeshop.html',
+    label: 'Sweet Dough Bakeshop',
+    tag: 'Website',
+    desc: 'Ordering and warehouse system for a baking-supplies wholesaler: product catalog, pricing, and cart.',
+    dir: 'samples',
+    image: '/samples/sweet-dough-bakeshop-full.jpg',
+    siteUrl: 'sweetdoughshop.delegatemate.com',
+  },
+]
 
 /**
  * Tag -> color map. Brand-external colors that identify the page type, passed
@@ -55,5 +79,5 @@ export const tagColors: Record<FunnelTag, string> = {
   'Lead Capture': '#8b5cf6',
   Booking: '#ec4899',
   Checkout: '#f59e0b',
-  Website: '#FF7A1A',
+  Website: '#00D2A8',
 }

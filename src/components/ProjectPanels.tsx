@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { Ticket, Robot, FlowArrow, type Icon } from '@/components/slab'
+import { Hospital, Buildings, Storefront, type Icon } from '@/components/slab'
 import { lazy, Suspense } from 'react'
 import WorkflowSamples from './WorkflowSamples'
 import AIStackGrid from './AIStackGrid'
@@ -20,6 +20,28 @@ export function AutomationsPanel() {
   return (
     <div className="ppanel ppanel--strip">
       <WorkflowSamples />
+    </div>
+  )
+}
+
+const OPS_SAMPLES = [
+  { file: 'monday-client-starter.jpg', label: 'Client Starter Pipeline' },
+  { file: 'monday-websites-board.jpg', label: 'Website Build Workflow' },
+  { file: 'monday-creative-requests.jpg', label: 'Creative Request Desk' },
+  { file: 'monday-team-dashboard.jpg', label: 'Team Progress Dashboard' },
+]
+
+/** Same strip, built from scratch migrating a client off Asana onto
+ *  Monday.com: the client pipeline, the website build workflow, the
+ *  creative request desk, and the live team dashboard. */
+export function OpsPanel() {
+  return (
+    <div className="ppanel ppanel--strip">
+      <WorkflowSamples
+        id="ops-samples"
+        samples={OPS_SAMPLES}
+        caption="Built from scratch migrating a client off Asana onto Monday.com: a per-department dashboard for client pipeline, sales, marketing, website, and design."
+      />
     </div>
   )
 }
@@ -61,7 +83,7 @@ export function BarrelPanel() {
 /** The systems as a logo-first grid, in a scrolling window. */
 export function AIWindow() {
   return (
-    <SectionWindow label="Your systems">
+    <SectionWindow label="Client systems">
       <AIStackGrid />
     </SectionWindow>
   )
@@ -92,9 +114,9 @@ export function PlanPanel() {
 type Build = { id: string; label: string; src: string; path: string; Icon: Icon }
 
 const BUILDS: Build[] = [
-  { id: 'ticketing', label: 'Featured Project One', src: '/placeholders/sample-plan.html?doc=1', path: '/featured-one', Icon: Ticket },
-  { id: 'framework', label: 'Featured Project Two', src: '/placeholders/sample-plan.html?doc=2', path: '/featured-two', Icon: Robot },
-  { id: 'workflow', label: 'Featured Project Three', src: '/placeholders/sample-plan.html?doc=3', path: '/featured-three', Icon: FlowArrow },
+  { id: 'ticketing', label: 'Bernardino Private Hospital', src: '/placeholders/bernardino-case-study.html', path: '/bernardino', Icon: Hospital },
+  { id: 'framework', label: 'Freedom Hill Real Estate', src: '/placeholders/freedom-hill-case-study.html', path: '/freedom-hill', Icon: Buildings },
+  { id: 'workflow', label: 'Donut Park PH', src: '/placeholders/donut-park-case-study.html', path: '/donut-park', Icon: Storefront },
 ]
 
 /** One build, framed, open on arrival. */

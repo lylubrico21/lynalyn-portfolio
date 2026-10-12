@@ -87,9 +87,9 @@ const LINKS: Link[] = [
 ]
 
 export const TOOLS: { Icon: Icon; label: string }[] = [
-  { Icon: Plug,           label: 'Your CRM' },
+  { Icon: Plug,           label: 'GoHighLevel' },
   { Icon: EnvelopeSimple, label: 'Email & SMS' },
-  { Icon: Sparkle,        label: 'AI Assistant' },
+  { Icon: Sparkle,        label: 'AI Chatbot' },
 ]
 
 const SVGNS = 'http://www.w3.org/2000/svg'
@@ -271,7 +271,7 @@ export default function Autopilot({ compact = false, maxScale = 1 }: AutopilotPr
         const sig = document.createElementNS(SVGNS, 'circle')
         sig.setAttribute('r', dashed ? '3.2' : '4.4')
         sig.style.fill = 'var(--ap-loop)'
-        sig.setAttribute('filter', 'drop-shadow(0 0 5px rgba(255,122,26,.9))')
+        sig.setAttribute('filter', 'drop-shadow(0 0 5px rgba(0, 210, 168,.9))')
         sigSvg.appendChild(sig)
         const len = path.getTotalLength ? path.getTotalLength() : 360
         const dur = Math.min(7, Math.max(2.4, len / 95))
@@ -348,11 +348,10 @@ export default function Autopilot({ compact = false, maxScale = 1 }: AutopilotPr
       <header className="autopilot__head">
         <span className="autopilot__eyebrow">Live automation</span>
         <h2 id="autopilot-heading" className="autopilot__headline">
-          Your workflow, end to end.
+          The automation behind every lead.
         </h2>
         <p className="autopilot__intro">
-          PLACEHOLDER - tell me what to put here: two or three sentences walking
-          through this example automation, from the trigger to each outcome.
+          A form submission triggers the sequence: an email goes out, the CRM updates, and a reminder follows after the wait step. The decision gate then routes the lead to a next action, a win, or a follow-up drip, so nothing falls through the cracks.
         </p>
       </header>
       )}
@@ -369,7 +368,7 @@ export default function Autopilot({ compact = false, maxScale = 1 }: AutopilotPr
 
         <div className="autopilot__canvas">
           <p className="autopilot__caption">
-            Your flow caption, in one short line.
+            Lead to close, automatically.
           </p>
 
           <div className="autopilot__board" aria-hidden="true">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { SealCheck, CaretRight, Play, Stack, Coffee } from '@/components/slab'
+import { SealCheck, CaretRight, Play } from '@/components/slab'
 import { profile } from '@/data/profile'
 import QuickMenu from './QuickMenu'
 
@@ -47,11 +47,11 @@ export function HomeStats() {
 }
 
 const TILES = [
-  { n: '01', label: 'Projects', to: '/projects', title: 'PLACEHOLDER - projects headline', desc: 'Tell me what to put here.', img: '/placeholders/project-1.jpg' },
-  { n: '02', label: 'Services', to: '/services', title: 'PLACEHOLDER - services headline', desc: 'Tell me what to put here.', Icon: Stack },
-  { n: '03', label: 'Showcase', to: '/showcase', title: 'PLACEHOLDER - your flagship', desc: 'Tell me what to put here.', Icon: Coffee, accent: true },
-  { n: '04', label: 'Testimonials', to: '/testimonials', title: 'PLACEHOLDER - testimonials headline', desc: 'Tell me what to put here.', img: '/placeholders/testimonial-1.jpg' },
-  { n: '05', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}.`, desc: 'PLACEHOLDER - one line about you.', img: profile.avatarSrc },
+  { n: '01', label: 'Projects', to: '/projects', title: 'The systems behind the scenes.', desc: 'Real automations, case studies, and sites built for clients.', img: '/home/samples-donut-park.jpeg' },
+  { n: '02', label: 'Services', to: '/services', title: 'Everything you offer, in one line each.', desc: 'Five ways to work together, from an audit to a full build.', img: '/placeholders/monday-team-dashboard.jpg' },
+  { n: '03', label: 'Showcase', to: '/showcase', title: 'Your flagship product, and the people using it.', desc: 'Lyly AI, a personal AI COO, still in development.', img: '/apps/lyly-card.png', accent: true },
+  { n: '04', label: 'Testimonials', to: '/testimonials', title: 'In their own words.', desc: 'Three clients, on camera, on what changed.', img: '/testimonials/sam-williams-poster.jpg' },
+  { n: '05', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}, better known as Lyann.`, desc: '15 years across 3 countries, now building Lyly AI.', img: profile.avatarSrc },
 ] as const
 
 export function HomeExplore() {
@@ -64,11 +64,7 @@ export function HomeExplore() {
         {TILES.map((t) => (
           <li key={t.to}>
             <Link to={t.to} className={`htile${'accent' in t && t.accent ? ' htile--accent' : ''}`}>
-              {'img' in t ? (
-                <span className="htile__media"><img className="htile__img" src={t.img} alt="" loading="lazy" /></span>
-              ) : (
-                <span className="htile__media htile__glyph"><t.Icon size={52} weight="duotone" aria-hidden="true" /></span>
-              )}
+              <span className="htile__media"><img className="htile__img" src={t.img} alt="" loading="lazy" /></span>
               <span className="htile__body">
                 <span className="htile__n">{t.n} {t.label}</span>
                 <span className="htile__title">{t.title}</span>
@@ -88,15 +84,15 @@ export function HomeExplore() {
           </Link>
         </h2>
       </div>
-      <Link to="/testimonials" className="hproof" aria-label="Client testimonial. PLACEHOLDER - a one-line teaser for your best testimonial.">
+      <Link to="/testimonials" className="hproof" aria-label="Client testimonial from Samuel Williams, CEO and Founder of Christmas Elves.">
         <span className="hproof__stage">
-          <img src="/placeholders/testimonial-1.jpg" alt="" loading="lazy" />
+          <img src="/testimonials/sam-williams-poster.jpg" alt="" loading="lazy" />
           <span className="hproof__play" aria-hidden="true"><Play size={20} weight="fill" /></span>
-          <span className="hproof__dur" aria-hidden="true">0:00</span>
+          <span className="hproof__dur" aria-hidden="true">0:34</span>
         </span>
         <span className="hproof__copy">
-          <span className="hproof__title">PLACEHOLDER - tell me what to put here: a one-line teaser for your best testimonial.</span>
-          <span className="hproof__meta">PLACEHOLDER - client role</span>
+          <span className="hproof__title">Built the full lead acquisition system for his lighting company.</span>
+          <span className="hproof__meta">Samuel Williams · CEO &amp; Founder, Christmas Elves</span>
         </span>
       </Link>
     </>

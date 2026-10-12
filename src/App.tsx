@@ -6,6 +6,7 @@ import Rail from '@/components/Rail'
 import IntroOverlay from '@/components/IntroOverlay'
 import CursorRing from '@/components/CursorRing'
 import AccessMenu from '@/components/AccessMenu'
+import WhatsAppWidget from '@/components/WhatsAppWidget'
 import { motionReduced } from '@/lib/a11y'
 import { useLenis, SCROLLER_ID } from '@/hooks/useLenis'
 import { useIsPhone } from '@/hooks/useMediaQuery'
@@ -31,7 +32,11 @@ export default function App() {
   useLenis()
 
   const { pathname } = useLocation()
-  const FIXED_ROUTES = ['/', '/projects', '/testimonials', '/about', '/contact']
+  // Projects dropped out: 7 real cards (screenshots, multi-line case
+  // studies, logo reels) outgrew one fixed screen, and every attempt to
+  // squeeze them back into it clipped or cramped something. It scrolls now,
+  // same as every route below the rail breakpoint already does.
+  const FIXED_ROUTES = ['/', '/testimonials', '/about', '/contact']
   const isFixed = FIXED_ROUTES.includes(pathname)
   // Below the shell breakpoint the rail is gone: a bottom tab bar navigates,
   // the QuickMenu (theme + accessibility) floats top-right on every page but
@@ -118,6 +123,7 @@ export default function App() {
       </div>
       {phone && <TabBar />}
       <AccessMenu />
+      <WhatsAppWidget />
     </>
   )
 }

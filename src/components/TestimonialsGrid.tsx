@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Play, Gauge, Robot, Code } from '@/components/slab'
+import { Play, Gauge, Robot, Lightbulb, GraduationCap } from '@/components/slab'
 import type { Icon } from '@/components/slab'
 
 /**
@@ -36,22 +36,42 @@ const CLIPS: Clip[] = [
   {
     id: 'clip-1',
     index: '01',
-    src: '',
-    poster: '/placeholders/testimonial-1.jpg',
-    duration: '0:00',
-    kicker: 'Client testimonial',
+    src: '/testimonials/sam-williams.mp4',
+    poster: '/testimonials/sam-williams-poster.jpg',
+    duration: '0:34',
+    kicker: 'Samuel Williams testimonial',
     width: 720,
-    height: 1080,
+    height: 1280,
   },
   {
     id: 'clip-2',
     index: '02',
-    src: '',
-    poster: '/placeholders/testimonial-2.jpg',
-    duration: '0:00',
-    kicker: 'Client testimonial',
+    src: '/testimonials/fibo-lim.mp4',
+    poster: '/testimonials/fibo-lim-poster.jpg',
+    duration: '0:52',
+    kicker: 'Fibo Lim testimonial',
+    width: 1280,
+    height: 720,
+  },
+  {
+    id: 'clip-3',
+    index: '03',
+    src: '/testimonials/michelle-ferro.mp4',
+    poster: '/testimonials/michelle-ferro-poster.jpg',
+    duration: '1:01',
+    kicker: 'Michelle Ferro testimonial',
     width: 720,
-    height: 1080,
+    height: 1280,
+  },
+  {
+    id: 'clip-4',
+    index: '04',
+    src: '/testimonials/fad-institute.mp4',
+    poster: '/testimonials/fad-institute-poster.jpg',
+    duration: '0:37',
+    kicker: 'Aya Webhe testimonial',
+    width: 1280,
+    height: 720,
   },
 ]
 
@@ -71,33 +91,39 @@ type Client = {
 const CLIENTS: Client[] = [
   {
     index: '01',
-    name: 'Client Name 1',
-    role: 'PLACEHOLDER ROLE',
+    name: 'Samuel Williams',
+    role: 'CEO & Founder, Christmas Elves',
     daily:
-      'PLACEHOLDER - tell me what to put here: one or two sentences on what you run or build for this client day to day.',
-    work: ['Tag', 'Tag', 'Tag'],
-    logoSrc: '/placeholders/logo.svg',
-    Icon: Gauge,
+      'Built the full lead acquisition system for his lighting company, from first lead to booked appointment, plus employee hiring and training.',
+    work: ['Lead acquisition', 'Hiring & training', 'GoHighLevel automation'],
+    Icon: Lightbulb,
   },
   {
     index: '02',
-    name: 'Client Name 2',
-    role: 'PLACEHOLDER ROLE',
+    name: 'Fibo Lim',
+    role: 'Fibo Lim Group of Companies',
     daily:
-      'PLACEHOLDER - tell me what to put here: one or two sentences on what you run or build for this client day to day.',
-    work: ['Tag', 'Tag', 'Tag'],
-    logoSrc: '/placeholders/logo.svg',
-    Icon: Robot,
+      'Operations manager across a multi-company group, bringing operational clarity and systems that work the same way across every entity.',
+    work: ['Operational clarity', 'Cross-company systems', 'Multi-entity ops'],
+    Icon: Gauge,
   },
   {
     index: '03',
-    name: 'Client Name 3',
-    role: 'PLACEHOLDER ROLE',
+    name: 'Michelle Ferro',
+    role: 'CEO, Donut Park PH',
     daily:
-      'PLACEHOLDER - tell me what to put here: one or two sentences on what you run or build for this client day to day.',
-    work: ['Tag', 'Tag', 'Tag'],
-    logoSrc: '/placeholders/logo.svg',
-    Icon: Code,
+      'Built the warehouse, supply chain, ordering, and accounting systems behind a donut franchise that scaled from 54 to 220 branches in 11 months.',
+    work: ['Franchise systems', 'Supply chain', '54 to 220 branches'],
+    Icon: Robot,
+  },
+  {
+    index: '04',
+    name: 'Aya Webhe',
+    role: 'Head of Operations, FAD Dubai',
+    daily:
+      'Built the academic and student acquisition system as Systems Engineer, supporting Operations, the website, marketing, and lead acquisition.',
+    work: ['Student acquisition', 'Academic operations', 'Marketing & leads'],
+    Icon: GraduationCap,
   },
 ]
 
@@ -120,10 +146,10 @@ export default function TestimonialsGrid() {
       <header className="pgrid__head">
         <span className="pgrid__eyebrow">Testimonials</span>
         <h1 className="pgrid__title" id="testimonials-title">
-          Your testimonials headline.
+          In their own words.
         </h1>
         <p className="pgrid__lede">
-          PLACEHOLDER - tell me what to put here: one line that introduces the videos and the client list.
+          Four clients, on camera, on what changed after working together.
         </p>
       </header>
 
@@ -211,14 +237,14 @@ export default function TestimonialsGrid() {
         {/* Right: the client ledger, one row per client. */}
         <div className="tgrid__ledger">
           <div className="tgrid__ledger-head">
-            <h2 className="tgrid__ledger-title">Your client list headline here.</h2>
-            <p className="tgrid__ledger-sub">Short supporting line.</p>
+            <h2 className="tgrid__ledger-title">Who's in the videos.</h2>
+            <p className="tgrid__ledger-sub">The people behind the clips on the left.</p>
           </div>
 
           {/* One plate, three rows split by hairlines. Three boxed cards each
               carrying their own border read as three separate widgets; a
               single ledger reads as one record. */}
-          <ul className="tgrid__clients" role="list">
+          <ul className="tgrid__clients" role="list" data-lenis-prevent>
             {CLIENTS.map((c) => {
               const FallbackIcon = c.Icon
               return (

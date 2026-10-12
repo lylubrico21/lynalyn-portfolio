@@ -7,34 +7,43 @@
 <meta name="robots" content="noindex">
 <style>
   :root {
-    --paper: #fbfaf6;
-    --ink: #14161c;
-    --muted: #5d6270;
-    --line: #e4e1d6;
-    --tint: #f2efe6;
-    --accent: #ff5722;
-    --accent-soft: #fff1ea;
+    --page: #c6cdcd;
+    --paper: #fbfbf7;
+    --ink: #0b1e3f;
+    --muted: #5a6479;
+    --line: rgba(11, 30, 63, 0.12);
+    --tint: #f2f4f3;
+    --accent: #00d2a8;
+    --accent-soft: #e0faf5;
     --radius: 14px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #0e0f16;
-      --ink: #f2f2f5;
+      --page: #070b14;
+      --paper: #0b1120;
+      --ink: #edf0f6;
       --muted: #a2a6b4;
-      --line: #262836;
-      --tint: #161824;
-      --accent-soft: #2a1710;
+      --line: rgba(255, 255, 255, 0.09);
+      --tint: #161e30;
+      --accent-soft: #001511;
     }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
   body {
-    background: var(--paper);
+    background: var(--page);
     color: var(--ink);
     font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  .doc { max-width: 760px; margin: 0 auto; padding: 56px 20px 80px; }
+  .doc {
+    max-width: 760px; margin: 40px auto; padding: 56px 48px 80px;
+    background: var(--paper); border-radius: 24px;
+    box-shadow: 0 30px 80px -30px rgba(6, 12, 26, 0.28);
+  }
+  @media (max-width: 680px) {
+    .doc { margin: 0; border-radius: 0; padding: 40px 20px 60px; box-shadow: none; }
+  }
   .tag {
     display: inline-flex; align-items: center; gap: 8px;
     font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -46,7 +55,7 @@
   h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; letter-spacing: -.02em; margin: 18px 0 12px; }
   .lede { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 58ch; }
   .meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-bottom: 44px; }
-  .meta div { background: var(--paper); padding: 14px 16px; }
+  .meta div { background: var(--tint); padding: 14px 16px; }
   .meta span { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
   .meta b { font-weight: 600; font-size: 15px; }
   h2 { font-size: 22px; letter-spacing: -.01em; margin: 44px 0 10px; display: flex; gap: 12px; align-items: baseline; }
@@ -59,7 +68,7 @@
   .hint strong { color: var(--ink); }
   .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
   .flow span {
-    border: 1px solid var(--line); background: var(--paper);
+    border: 1px solid var(--line); background: var(--tint);
     border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 500;
   }
   .flow span.on { border-color: var(--accent); color: var(--accent); }
@@ -74,53 +83,44 @@
   <main class="doc">
     <span class="tag">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 1.5h5.5L13 5v9.5H4z"/><path d="M9 1.5V5h4"/></svg>
-      <span id="doc-kind">Placeholder sample document</span>
+      <span>Case study</span>
     </span>
-    <h1 id="doc-title">Your document title goes here.</h1>
-    <p class="lede">PLACEHOLDER - tell me what to put here: a one-line summary of this plan or case study, who it was for, and the result.</p>
+    <h1>Practice Growth Partners: 48 to 250+ clinics.</h1>
+    <p class="lede">Nearly three years as Operations Manager and Systems Engineer, building the playbook that took a medical marketing agency from 48 clinics to 250+.</p>
 
     <div class="meta">
-      <div><span>Client</span><b>Client Name</b></div>
-      <div><span>Timeline</span><b>0 weeks</b></div>
-      <div><span>Outcome</span><b>Result metric</b></div>
+      <div><span>Client</span><b>Practice Growth Partners</b></div>
+      <div><span>Timeline</span><b>~3 years, Operations Manager & Systems Engineer</b></div>
+      <div><span>Outcome</span><b>48 to 250+ clinics, promoted to Director of Operations</b></div>
     </div>
 
     <h2><i>01</i>The problem</h2>
-    <div class="hint"><strong>PLACEHOLDER - tell me what to put here:</strong> what was broken or missing before you started, in two or three sentences.</div>
+    <div class="hint">PGP had 48 clinics on the roster when I joined, spanning vein and vascular, medspa and cosmetics, dental, and wellness, and the systems in place weren't built to carry that kind of scale without breaking.</div>
 
     <h2><i>02</i>The plan</h2>
-    <p class="hint"><strong>PLACEHOLDER - tell me what to put here:</strong> the steps you mapped out before building anything.</p>
+    <p class="hint">Build one end-to-end system per clinic, appointment booking, marketing, sales and booking follow-up, operations, and EMR/EHR records, then turn it into a repeatable playbook the agency could roll out to every new clinic.</p>
     <div class="flow" aria-label="Example flow">
-      <span>Step one</span><em>&rarr;</em>
-      <span>Step two</span><em>&rarr;</em>
-      <span>Decision?</span><em>&rarr;</em>
-      <span class="on">Result</span>
+      <span>Booking</span><em>&rarr;</em>
+      <span>Marketing & sales</span><em>&rarr;</em>
+      <span>Operations & EMR</span><em>&rarr;</em>
+      <span class="on">Playbook, clinic by clinic</span>
     </div>
 
     <h2><i>03</i>What was built</h2>
-    <div class="hint"><strong>PLACEHOLDER - tell me what to put here:</strong> the pieces you delivered.</div>
+    <div class="hint">The pieces delivered across the agency.</div>
     <ul class="list">
-      <li>Deliverable one</li>
-      <li>Deliverable two</li>
-      <li>Deliverable three</li>
+      <li>End-to-end setup per clinic, across vein and vascular, medspa and cosmetics, dental, and wellness</li>
+      <li>Automation from contract to customer success communication, into the CRM and project management, through to fulfillment and marketing</li>
+      <li>A KPI dashboard built in Google Data Studio</li>
+      <li>Tool migrations: Asana to Monday.com, HubSpot to GoHighLevel, and Jasper to SEMrush</li>
+      <li>Zapier and Make running the automation layer</li>
+      <li>A 52-person team run across every clinic</li>
     </ul>
 
     <h2><i>04</i>Results</h2>
-    <div class="hint"><strong>PLACEHOLDER - tell me what to put here:</strong> the numbers or the change the client saw afterwards.</div>
+    <div class="hint">The agency scaled from 48 to 250+ clinics, including one of its largest accounts handled single-handedly, and owners trusted the same playbook enough to roll it out across every new clinic. That led to a promotion to Director of Operations as doctors began reaching out directly instead of going through the agency.</div>
 
-    <footer>This is a placeholder page shipped with the template. Replace public/placeholders/sample-plan.html with your own document.</footer>
+    <footer>GoHighLevel, Google Workspace, Zapier, Make, Monday.com, SEMrush, Freshdesk, Slack.</footer>
   </main>
-  <script>
-    // ?doc=N labels the page for the featured-project panels that reuse it.
-    (function () {
-      var n = new URLSearchParams(location.search).get('doc');
-      var names = { '1': 'Featured Project One', '2': 'Featured Project Two', '3': 'Featured Project Three' };
-      if (!n || !names[n]) return;
-      var kind = document.getElementById('doc-kind');
-      var title = document.getElementById('doc-title');
-      if (kind) kind.textContent = 'Placeholder - ' + names[n];
-      if (title) title.textContent = names[n] + ': your page goes here.';
-    })();
-  </script>
 </body>
 </html>

@@ -17,3 +17,14 @@ pnpm-debug.log*
 # needs it - so it is the one env file that is tracked.
 !.env.production
 !.env.example
+
+# Raw drop-off files at the repo root: source screenshots before redaction
+# (some still show real client names and the Half Brain Solutions branding)
+# and raw testimonial video exports (one is 194MB, over GitHub's own limit).
+# The processed, redacted, web-sized versions actually used by the site
+# live under public/ and are tracked normally - the single `*` below only
+# matches root-level files, never anything inside a subfolder like public/.
+/*.png
+/*.jpg
+/*.jpeg
+/*.mov

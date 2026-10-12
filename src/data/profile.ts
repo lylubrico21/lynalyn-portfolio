@@ -33,6 +33,8 @@ export type Profile = {
   /** Tooltip / screen-reader label on the verified tick next to your name. */
   verifiedLabel: string
   email: string
+  /** International format, digits only (no +, no spaces), for wa.me links. */
+  whatsapp: string
   location: string
   /** Three short proof facts shown on phones under the Home lede. */
   stats: Stat[]
@@ -46,31 +48,31 @@ export type Profile = {
 }
 
 export const profile: Profile = {
-  name: 'Your Name',
-  firstName: 'Your Name',
-  handle: '@yourhandle',
-  role: 'PLACEHOLDER - your title',
-  avatarSrc: '/avatar.svg',
-  verifiedLabel: 'PLACEHOLDER - what the tick means (e.g. a certification)',
-  email: 'you@example.com',
-  location: 'PLACEHOLDER - your city or timezone',
+  name: 'Lynalyn Lubrico',
+  firstName: 'Lynalyn',
+  handle: '@lylylubrico',
+  role: 'Your Operations and Systems Partner',
+  avatarSrc: '/avatar.png',
+  verifiedLabel: 'Lean Six Sigma Black Belt',
+  email: 'lynalyn.lubrico@gmail.com',
+  whatsapp: '639776466158',
+  location: 'Manila, Philippines',
   // Pick any icon from https://phosphoricons.com and import it above.
   stats: [
-    { value: '0 yrs', label: 'PLACEHOLDER', Icon: Briefcase },
-    { value: '#000', label: 'PLACEHOLDER', Icon: SealCheck },
-    { value: 'GMT+0', label: 'PLACEHOLDER', Icon: Clock },
+    { value: '15 yrs', label: 'Experience', Icon: Briefcase },
+    { value: '3', label: 'Countries', Icon: SealCheck },
+    { value: 'GMT+8', label: 'Manila, PH', Icon: Clock },
   ],
   // The intro types this line, then flies it into the Home headline.
   // Keep it short: two halves, 5-8 words total.
-  displayName: { line1: 'Your headline here.', line2: 'Keep it short.' },
+  displayName: { line1: 'Systems that run', line2: 'without the founder.' },
   hero: {
-    body: 'PLACEHOLDER - one line on what you do and who you do it for.',
-    portraitSrc: '/avatar.svg',
+    body: "I help clinic owners and agencies build operations systems so the business doesn't depend on the founder, using the playbook behind 250+ US clinics.",
+    portraitSrc: '/avatar.png',
     portraitAlt: 'Portrait placeholder',
   },
   socials: [
-    { label: 'Facebook profile', href: '#', iconPath: '/icons/facebook.svg' },
-    { label: 'LinkedIn profile', href: '#', iconPath: '/icons/linkedin.svg' },
-    { label: 'Discord profile', href: '#', iconPath: '/icons/discord.svg' },
+    { label: 'LinkedIn profile', href: 'https://www.linkedin.com/in/lynalynlubrico/', iconPath: '/icons/linkedin.svg' },
+    { label: 'Instagram profile', href: 'https://www.instagram.com/lynalynlubrico', iconPath: '/icons/instagram.svg' },
   ],
 }

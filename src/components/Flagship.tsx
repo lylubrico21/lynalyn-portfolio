@@ -35,11 +35,9 @@ import {
   ClosedCaptioning,
   MagicWand,
   Star,
-  Quotes,
-  Pause,
-  Play,
 } from '@/components/slab'
 import type { Icon } from '@/components/slab'
+import TestimonialMarquee from '@/components/TestimonialMarquee'
 
 /**
  * Flagship - "Main build" callout. Used at the bottom of Projects and as the
@@ -665,65 +663,6 @@ const MOCKS: Record<TabId, React.ComponentType> = {
   leads: LeadsMock,
 }
 
-type Feedback = {
-  name: string
-  date: string
-  rating: number
-  context: string
-  quote: string
-}
-
-/* Use real quotes only, kept verbatim, with the person's permission. */
-const FEEDBACKS: Feedback[] = [
-  {
-    name: 'Client Name',
-    date: 'Jan 5, 2026',
-    rating: 5,
-    context: 'PLACEHOLDER',
-    quote:
-      'PLACEHOLDER - tell me what to put here: a real quote from someone who used your product, word for word, two to four sentences on what it did for them.',
-  },
-  {
-    name: 'Client Name',
-    date: 'Jan 4, 2026',
-    rating: 5,
-    context: 'PLACEHOLDER',
-    quote:
-      'PLACEHOLDER - tell me what to put here: a real quote about a specific feature or result, with a number if they gave one.',
-  },
-  {
-    name: 'Client Name',
-    date: 'Jan 3, 2026',
-    rating: 5,
-    context: 'PLACEHOLDER',
-    quote:
-      'PLACEHOLDER - tell me what to put here: a short real quote, one sentence is fine.',
-  },
-  {
-    name: 'Client Name',
-    date: 'Jan 2, 2026',
-    rating: 5,
-    context: 'PLACEHOLDER',
-    quote:
-      'PLACEHOLDER - tell me what to put here: a real quote about working with you or the support you gave, not just the product.',
-  },
-  {
-    name: 'Client Name',
-    date: 'Jan 1, 2026',
-    rating: 4,
-    context: 'PLACEHOLDER',
-    quote: 'PLACEHOLDER - tell me what to put here: a one-line quote.',
-  },
-  {
-    name: 'Client Name',
-    date: 'Dec 31, 2025',
-    rating: 5,
-    context: 'PLACEHOLDER',
-    quote:
-      'PLACEHOLDER - tell me what to put here: a real quote from a community member or early user, two sentences.',
-  },
-]
-
 const AUTO_ADVANCE_MS = 6000
 
 type FlagshipProps = {
@@ -736,10 +675,6 @@ export default function Flagship({ eyebrow = '12 / Flagship build' }: FlagshipPr
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
   const [inView, setInView] = useState(true)
-  // WCAG 2.2.2: any auto-moving content over 5 seconds needs a pause
-  // mechanism that works for keyboard users. CSS-only hover-pause does not
-  // help anyone tabbing through the page, so we ship a real button.
-  const [feedbackPaused, setFeedbackPaused] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)
 
   // Pause auto-advance when the carousel is offscreen so we are not
@@ -866,79 +801,7 @@ export default function Flagship({ eyebrow = '12 / Flagship build' }: FlagshipPr
         </div>
       </div>
 
-      <div className="flagship__feedback" aria-labelledby="flagship-feedback-heading">
-        <header className="flagship__feedback-header">
-          <span className="flagship__feedback-eyebrow">What people say about it</span>
-          <h4 className="flagship__feedback-title" id="flagship-feedback-heading">
-            Your testimonials heading.
-          </h4>
-          <button
-            type="button"
-            className="flagship__feedback-pause"
-            onClick={() => setFeedbackPaused((v) => !v)}
-            aria-pressed={feedbackPaused}
-            aria-label={
-              feedbackPaused
-                ? 'Resume scrolling testimonials'
-                : 'Pause scrolling testimonials'
-            }
-          >
-            {feedbackPaused ? (
-              <Play weight="fill" size={14} aria-hidden="true" />
-            ) : (
-              <Pause weight="fill" size={14} aria-hidden="true" />
-            )}
-            <span>{feedbackPaused ? 'Play' : 'Pause'}</span>
-          </button>
-        </header>
-        <div className={`flagship__feedback-marquee${feedbackPaused ? ' is-paused' : ''}`}>
-          <div
-            className="flagship__feedback-track"
-            style={feedbackPaused ? { animationPlayState: 'paused' } : undefined}
-          >
-            {[...FEEDBACKS, ...FEEDBACKS].map((f, i) => (
-              <figure key={`${f.name}-${i}`} className="flagship__feedback-card">
-                <Quotes
-                  className="flagship__feedback-quotemark"
-                  weight="fill"
-                  size={28}
-                  aria-hidden="true"
-                />
-                <div
-                  className="flagship__feedback-rating"
-                  role="img"
-                  aria-label={`${f.rating} out of 5 stars`}
-                >
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <Star
-                      key={idx}
-                      weight={idx < f.rating ? 'fill' : 'regular'}
-                      size={14}
-                      className={
-                        idx < f.rating
-                          ? 'flagship__feedback-star is-filled'
-                          : 'flagship__feedback-star'
-                      }
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <blockquote className="flagship__feedback-quote">{f.quote}</blockquote>
-                <figcaption className="flagship__feedback-author">
-                  <span className="flagship__feedback-name">{f.name}</span>
-                  <span className="flagship__feedback-meta">
-                    <span className="flagship__feedback-context">{f.context}</span>
-                    <span className="flagship__feedback-dot" aria-hidden="true">
-                      ·
-                    </span>
-                    <span className="flagship__feedback-date">{f.date}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </div>
+      <TestimonialMarquee />
     </aside>
   )
 }

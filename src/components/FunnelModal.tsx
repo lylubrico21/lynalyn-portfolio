@@ -68,8 +68,14 @@ export function useFunnelModal() {
               <span className="funnels__modal-light funnels__modal-light--green" />
             </div>
             <div className="funnels__modal-url" aria-hidden="true">
-              <span className="funnels__modal-url-scheme">yoursite.com</span>
-              <span className="funnels__modal-url-path">{fullSrc(funnel)}</span>
+              {funnel.image ? (
+                <span className="funnels__modal-url-path">{funnel.siteUrl ?? funnel.label}</span>
+              ) : (
+                <>
+                  <span className="funnels__modal-url-scheme">yoursite.com</span>
+                  <span className="funnels__modal-url-path">{fullSrc(funnel)}</span>
+                </>
+              )}
             </div>
             <div className="funnels__modal-actions">
               <button
@@ -83,12 +89,18 @@ export function useFunnelModal() {
               </button>
             </div>
           </div>
-          <iframe
-            className="funnels__modal-iframe"
-            src={fullSrc(funnel)}
-            title={funnel.label}
-            sandbox="allow-same-origin allow-forms allow-scripts allow-popups"
-          />
+          {funnel.image ? (
+            <div className="funnels__modal-shot">
+              <img className="funnels__modal-shot-img" src={funnel.image} alt={`${funnel.label} screenshot`} />
+            </div>
+          ) : (
+            <iframe
+              className="funnels__modal-iframe"
+              src={fullSrc(funnel)}
+              title={funnel.label}
+              sandbox="allow-same-origin allow-forms allow-scripts allow-popups"
+            />
+          )}
         </div>
       </div>,
       document.body,

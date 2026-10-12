@@ -2,11 +2,11 @@
   /* Brand palette */
   --navy:       #0B1E3F;   /* primary text, card surface, dark accents */
   --navy-ink:   #060C1A;   /* matches shader dark base for .dark-section */
-  --cream:      #F4F4ED;   /* matches shader light base, page bg */
+  --cream:      #C6CDCD;   /* matches shader light base, page bg */
   --white:      #FFFFFF;
-  --orange:     #FF7A1A;   /* CTA, accent bar, active dot */
-  --orange-hover: #FFA155; /* CTA hover state */
-  --orange-ink: #B4490A;   /* accessible orange TEXT on light bg - 4.88:1 on cream, 5.39:1 on white (WCAG AA) */
+  --orange:     #00D2A8;   /* CTA, accent bar, active dot */
+  --orange-hover: #40DDBE; /* CTA hover state */
+  --orange-ink: #005E4C;   /* accessible TEXT on light bg - 4.81:1 on cream, 7.76:1 on white (WCAG AA) */
   --muted:      #5A6479;
   --divider:    rgba(11, 30, 63, 0.12);
   --success:    #2E9E6B;   /* form status ok - clears 4.5:1 on navy-ink */
@@ -79,7 +79,7 @@
   --glass:      rgba(251, 251, 247, 0.72);
   /* A plate that stays light in BOTH themes. Brand marks are external
      identifiers and need a constant backdrop to read against. */
-  --plate:      #F4F4ED;
+  --plate:      #C6CDCD;
   /* The opaque fill for sections that were written as white-on-navy back when
      the shader inverted on scroll. It no longer does, so they carry their own
      ground. Same navy in both themes: their type is light either way. */
@@ -115,9 +115,9 @@
   --tint:         rgba(255, 255, 255, 0.05);
   --tint-strong:  rgba(255, 255, 255, 0.09);
   --glass:        rgba(14, 22, 38, 0.72);
-  --orange-ink:   #FF9A4D;
+  --orange-ink:   #4DE0C2;
   --panel-dark:   #0B1120;
-  --brands-chip-bg:     #F4F4ED;
+  --brands-chip-bg:     #C6CDCD;
   --brands-chip-border: rgba(255, 255, 255, 0.14);
   --shadow-soft:  0 20px 60px -20px rgba(0, 0, 0, 0.75);
   --shadow-card:  0 40px 120px -30px rgba(0, 0, 0, 0.85);

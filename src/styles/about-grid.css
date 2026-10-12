@@ -7,6 +7,21 @@
 .agrid__glass { min-height: 0; }
 
 @media (min-width: 1100px) {
+  /* .pgrid's own height:100% + grid-template-rows:auto 1fr used to be the
+     shared rule every fixed-viewport page relied on. Projects dropped it to
+     become scrollable (see projects-grid.css), but .pgrid is a shared class
+     and that change silently took the height constraint out from under
+     About too - .agrid__glass's own height:100% has nothing definite to
+     resolve against without it, so it fell back to sizing off the
+     portrait's intrinsic aspect ratio and ran the sheet past the panel.
+     Re-pinned here, scoped to .agrid, since About is still meant to be a
+     true single screen. */
+  .pgrid.agrid {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 0;
+  }
   .agrid__glass {
     height: 100%;
     display: grid;
@@ -23,11 +38,15 @@
 .agrid__copy {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(10px, 1.5vh, 20px);
+  /* flex-start, not center: centering overflowing content (more rows, more
+     marks per row) let the top get clipped by the glass's own overflow
+     instead of respecting the top padding below. Top-aligned, the padding
+     always holds. */
+  justify-content: flex-start;
+  gap: clamp(5px, 0.8vh, 10px);
   min-height: 0;
   min-width: 0;
-  padding: clamp(4px, 1vh, 16px) 0 clamp(4px, 1vh, 16px) clamp(4px, 0.8vw, 16px);
+  padding: clamp(12px, 2vh, 22px) 0 clamp(4px, 1vh, 16px) clamp(4px, 0.8vw, 16px);
 }
 
 /* The statement. This is the only display-scale type inside the sheet, so it
@@ -49,7 +68,7 @@
   margin: 0;
   max-width: 58ch;
   font-size: clamp(12.5px, min(0.92vw, 1.7vh), 15.5px);
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--muted);
   flex: 0 0 auto;
 }
@@ -58,7 +77,7 @@
   color: var(--navy);
   font-weight: 600;
   text-decoration: none;
-  box-shadow: inset 0 -1px 0 rgba(255, 122, 26, 0.55);
+  box-shadow: inset 0 -1px 0 rgba(0, 210, 168, 0.55);
   transition: box-shadow 200ms var(--ease-out), color 200ms var(--ease-out);
 }
 .agrid__link:hover { color: var(--orange-ink); box-shadow: inset 0 -2px 0 var(--orange); }
@@ -88,7 +107,7 @@
   grid-template-columns: calc(5 * var(--tile) - 4 * var(--overlap) + var(--overlap)) minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(10px, 1vw, 16px);
-  padding: clamp(7px, 1.1vh, 13px) 2px;
+  padding: clamp(5px, 0.8vh, 10px) 2px;
   border-top: 1px solid var(--line);
 }
 .agrid__cap:last-child { border-bottom: 1px solid var(--line); }
@@ -162,7 +181,7 @@
   align-items: center;
   gap: 11px;
   min-width: 0;
-  padding: clamp(9px, 1.2vh, 13px) clamp(12px, 1vw, 18px);
+  padding: clamp(6px, 0.9vh, 10px) clamp(12px, 1vw, 18px);
   color: inherit;
   text-decoration: none;
 }
@@ -180,7 +199,7 @@
   color: var(--line-strong);
   transition: color 220ms var(--ease-out), transform 220ms var(--ease-out);
 }
-.agrid__cell--wide:hover .agrid__cell-go { color: var(--orange); transform: translate(2px, -2px); }
+a.agrid__cell:hover .agrid__cell-go { color: var(--orange); transform: translate(2px, -2px); }
 .agrid__cell-mark {
   display: grid;
   place-items: center;
@@ -189,8 +208,8 @@
   height: clamp(30px, 2.3vw, 38px);
   border-radius: 10px;
   color: var(--orange);
-  background: rgba(255, 122, 26, 0.10);
-  box-shadow: inset 0 0 0 1px rgba(255, 122, 26, 0.22);
+  background: rgba(0, 210, 168, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(0, 210, 168, 0.22);
 }
 .agrid__cell-mark--img { background: var(--white); box-shadow: inset 0 0 0 1px var(--line-strong); }
 /* The HLA mark is a full-bleed gradient logo - an orange wash behind it reads
@@ -214,7 +233,7 @@
   color: var(--muted);
 }
 
-[data-theme='dark'] .agrid__cell-mark--img { background: #F4F4ED; }
+[data-theme='dark'] .agrid__cell-mark--img { background: #C6CDCD; }
 
 /* Between the rail breakpoint and a wide desktop the bar has ~500px for two
    facts, so the cells tighten to keep their titles short. */
@@ -228,7 +247,7 @@
    drawn for light backgrounds and several of these are monochrome black, so
    inverting the tile would erase them. */
 [data-theme='dark'] .agrid__mark {
-  background: #F4F4ED;
+  background: #C6CDCD;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
     0 2px 6px -3px rgba(0, 0, 0, 0.6);
@@ -256,6 +275,19 @@
   max-width: 100%;
   object-fit: contain;
   object-position: bottom right;
+  /* The event photo ends in a hard rectangular edge, which reads as a sticker
+     pasted on the glass. A radial fade anchored high keeps the stage and the
+     speaker crisp and dissolves the crowd/floor toward the bottom edge into
+     the panel instead of cutting it off sharply. Masking (not a scrim) so it
+     blends with the glass's own gradient instead of banding against it. */
+  --portrait-fade: radial-gradient(
+    120% 95% at 50% 22%,
+    #000 66%,
+    rgba(0, 0, 0, 0.55) 85%,
+    transparent 100%
+  );
+  mask-image: var(--portrait-fade);
+  mask-repeat: no-repeat;
 }
 
 /* ---------- Below the shell ---------- */
