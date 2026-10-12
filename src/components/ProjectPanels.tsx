@@ -102,7 +102,7 @@ export function PlanPanel() {
     <div className="ppanel ppanel--frame">
       <FrameBar
         host="yourdomain.com"
-        path="/sample-plan"
+        path="/case-study/practicegrowthpartners"
       />
       <LiveFrame src="/placeholders/sample-plan.html" title="Sample document" />
     </div>
@@ -114,9 +114,9 @@ export function PlanPanel() {
 type Build = { id: string; label: string; src: string; path: string; Icon: Icon }
 
 const BUILDS: Build[] = [
-  { id: 'ticketing', label: 'Bernardino Private Hospital', src: '/placeholders/bernardino-case-study.html', path: '/bernardino', Icon: Hospital },
-  { id: 'framework', label: 'Freedom Hill Real Estate', src: '/placeholders/freedom-hill-case-study.html', path: '/freedom-hill', Icon: Buildings },
-  { id: 'workflow', label: 'Donut Park PH', src: '/placeholders/donut-park-case-study.html', path: '/donut-park', Icon: Storefront },
+  { id: 'ticketing', label: 'Bernardino Private Hospital', src: '/placeholders/bernardino-case-study.html', path: '/case-study/bernardino', Icon: Hospital },
+  { id: 'framework', label: 'Freedom Hill Real Estate', src: '/placeholders/freedom-hill-case-study.html', path: '/case-study/freedomhill', Icon: Buildings },
+  { id: 'workflow', label: 'Donut Park PH', src: '/placeholders/donut-park-case-study.html', path: '/case-study/donutpark', Icon: Storefront },
 ]
 
 /** One build, framed, open on arrival. */
