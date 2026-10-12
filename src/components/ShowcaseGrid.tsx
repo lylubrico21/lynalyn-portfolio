@@ -45,7 +45,7 @@ export default function ShowcaseGrid() {
         <div className="flagship-soon">
           <span className="flagship-soon__eyebrow">Flagship build</span>
           <span className="flagship-soon__art" aria-hidden="true">
-            <img src="/apps/lyly-card.png" alt="" loading="lazy" decoding="async" />
+            <img src="/apps/lyly-card.jpg" alt="" loading="lazy" decoding="async" />
           </span>
           <h2 className="flagship-soon__title">Lyly AI</h2>
           <p className="flagship-soon__tagline">A personal AI COO, built to run operations end to end.</p>

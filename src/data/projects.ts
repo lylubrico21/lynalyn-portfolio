@@ -74,7 +74,7 @@ export const mobileApps: MobileApp[] = [
     description: 'An AI agent built to act as a personal Chief Operating Officer, handling day-to-day operations work without hiring one.',
     // LYLY's face: a cartoonized portrait of Lyann herself, confirmed as
     // LYLY's identity. Real product screenshots still come later.
-    imageSrc: '/apps/lyly-card.png',
+    imageSrc: '/apps/lyly-card.jpg',
     accentColor: '#EC4899',
     stats: [
       { value: 'Solo', label: 'Built by' },

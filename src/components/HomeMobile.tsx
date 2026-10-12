@@ -49,7 +49,7 @@ export function HomeStats() {
 const TILES = [
   { n: '01', label: 'Projects', to: '/projects', title: 'The systems behind the scenes.', desc: 'Real automations, case studies, and sites built for clients.', img: '/home/samples-donut-park.jpeg' },
   { n: '02', label: 'Services', to: '/services', title: 'Everything you offer, in one line each.', desc: 'Five ways to work together, from an audit to a full build.', img: '/placeholders/monday-team-dashboard.jpg' },
-  { n: '03', label: 'Showcase', to: '/showcase', title: 'Your flagship product, and the people using it.', desc: 'Lyly AI, a personal AI COO, still in development.', img: '/apps/lyly-card.png', accent: true },
+  { n: '03', label: 'Showcase', to: '/showcase', title: 'Your flagship product, and the people using it.', desc: 'Lyly AI, a personal AI COO, still in development.', img: '/apps/lyly-card.jpg', accent: true },
   { n: '04', label: 'Testimonials', to: '/testimonials', title: 'In their own words.', desc: 'Three clients, on camera, on what changed.', img: '/testimonials/sam-williams-poster.jpg' },
   { n: '05', label: 'About', to: '/about', title: `Hi, I'm ${profile.firstName}, better known as Lyann.`, desc: '15 years across 3 countries, now building Lyly AI.', img: profile.avatarSrc },
 ] as const
