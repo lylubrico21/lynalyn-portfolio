@@ -1,59 +1,42 @@
-import { useState, type FormEvent } from 'react'
-import { PaperPlaneTilt, CheckCircle, WarningCircle, EnvelopeSimple, ArrowUpRight, CaretDown } from '@/components/slab'
+import { useState } from 'react'
+import { ArrowUpRight, CaretDown } from '@/components/slab'
 import { FAQS } from '@/data/faqs'
 import { profile } from '@/data/profile'
-import { readLead, submitLead, SubmitError, MAX_NAME, MAX_EMAIL, MAX_MESSAGE, type SubmitResult } from '@/lib/contact'
 
 /**
  * ContactGrid - the Contact view as a fixed viewport.
  *
  * One glass sheet, two columns: the questions people ask before they write
  * on the left, on a dark plate (one open at a time, the list scrolls), and
- * the form itself on the right. Sized to the panel, so
- * nothing here scrolls; the message box takes whatever height is left.
+ * a direct-contact CTA on the right - real channels, not a form. Sized to
+ * the panel, so nothing here scrolls.
  *
- * Submission goes through lib/contact.ts, which is the one place a form
- * backend gets wired. Until it is, the same call opens the visitor's mail
- * client with the message laid out, and the success copy says so.
+ * This used to be a form posting through lib/contact.ts. Replaced with a
+ * direct channel list: no backend to wire, no visitor depending on their
+ * own email client actually sending - just real, working links.
  */
 
-type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'error'; note: string } | { kind: 'sent'; via: SubmitResult['via'] }
+/** Last path segment of a profile URL, for a clean handle instead of the
+ *  full link - lynalynlubrico.com/in/lynalynlubrico/ -> lynalynlubrico. */
+const handleOf = (href: string) => href.replace(/\/$/, '').split('/').pop() ?? href
 
-/* The plane takes this long to leave the button. The sent state waits for it
-   even when the submit itself is instant, so the send is something you see
-   happen rather than a panel that blinks. */
-const FLIGHT_MS = 650
+const WHATSAPP_HREF = `https://wa.me/${profile.whatsapp}`
 
-const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
+type Channel = { label: string; value: string; href: string }
+
+const CHANNELS: Channel[] = [
+  { label: 'WhatsApp', value: '+63 977 646 6158', href: WHATSAPP_HREF },
+  { label: 'Email', value: profile.email, href: `mailto:${profile.email}` },
+  ...profile.socials.map((s) => ({
+    label: s.label.replace(' profile', ''),
+    value: `@${handleOf(s.href)}`,
+    href: s.href,
+  })),
+]
 
 export default function ContactGrid() {
-  const [status, setStatus] = useState<Status>({ kind: 'idle' })
-  // Bumped on every failed submit so the shake replays even if the same
-  // error is already showing.
-  const [shake, setShake] = useState(0)
-  // One question open at a time so the plate never grows past the form.
+  // One question open at a time so the plate never grows past the panel.
   const [openFaq, setOpenFaq] = useState<number | null>(0)
-
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const lead = readLead(new FormData(e.currentTarget))
-    if (!lead) {
-      setStatus({ kind: 'error', note: 'Add your name, a real email, and a short note.' })
-      setShake((n) => n + 1)
-      return
-    }
-    setStatus({ kind: 'sending' })
-    try {
-      const [result] = await Promise.all([submitLead(lead), wait(FLIGHT_MS)])
-      setStatus({ kind: 'sent', via: result.via })
-    } catch (err) {
-      const note = err instanceof SubmitError ? err.message : 'That did not go through. Email me directly instead.'
-      setStatus({ kind: 'error', note })
-      setShake((n) => n + 1)
-    }
-  }
-
-  const busy = status.kind === 'sending'
 
   return (
     <section className="pgrid cgrid" aria-labelledby="contact-title">
@@ -102,106 +85,34 @@ export default function ContactGrid() {
               )
             })}
           </ul>
-
-          <div className="cgrid__direct">
-            <a className="cgrid__mail" href={`mailto:${profile.email}`}>
-              <EnvelopeSimple size={16} weight="fill" aria-hidden="true" />
-              <span>{profile.email}</span>
-            </a>
-            <ul className="cgrid__socials" role="list">
-              {profile.socials.map((s) => (
-                <li key={s.label}>
-                  <a className="cgrid__social" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
-                    <img src={s.iconPath} alt="" loading="lazy" decoding="async" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </aside>
 
-        {/* Right: the form. */}
+        {/* Right: skip the form, message me directly. */}
         <div className="cgrid__panel">
-          {status.kind === 'sent' ? (
-            <div className="cgrid__done" role="status">
-              <span className="cgrid__done-mark" aria-hidden="true">
-                <CheckCircle size={30} weight="fill" />
-              </span>
-              <h2 className="cgrid__done-title">
-                {status.via === 'webhook' ? 'Got it.' : 'Your mail app has it.'}
-              </h2>
-              <p className="cgrid__done-body">
-                {status.via === 'webhook'
-                  ? 'It is in my inbox and on my phone. You will hear back within one business day.'
-                  : 'The message is laid out and addressed. Press send there and you will hear back within one business day.'}
-              </p>
-              <button type="button" className="cgrid__again" onClick={() => setStatus({ kind: 'idle' })}>
-                Write another
-              </button>
-            </div>
-          ) : (
-            <form className={`cgrid__form${busy ? ' is-sending' : ''}`} onSubmit={onSubmit} noValidate>
-              {/* Honeypot. Hidden from people and assistive tech; a script that
-                  fills every field trips it and the backend can drop the
-                  post. autoComplete off so a browser never fills it either. */}
-              <input
-                type="text"
-                name="website"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="cgrid__trap"
-              />
-              <div className="cgrid__row">
-                <label className="cgrid__field">
-                  <span className="cgrid__label">First name</span>
-                  <input type="text" name="firstName" autoComplete="given-name" required maxLength={MAX_NAME} placeholder="First name" />
-                </label>
-                <label className="cgrid__field">
-                  <span className="cgrid__label">Last name</span>
-                  <input type="text" name="lastName" autoComplete="family-name" required maxLength={MAX_NAME} placeholder="Last name" />
-                </label>
-              </div>
+          <div className="cgrid__direct-head">
+            <span className="cgrid__eyebrow">Contact</span>
+            <h2 className="cgrid__direct-title">Message me directly.</h2>
+            <p className="cgrid__direct-lede">Whichever you check first. I reply within one business day.</p>
+          </div>
 
-              <label className="cgrid__field">
-                <span className="cgrid__label">Email</span>
-                <input type="email" name="email" autoComplete="email" required maxLength={MAX_EMAIL} placeholder="you@yourbusiness.com" />
-              </label>
-
-              <label className="cgrid__field cgrid__field--grow">
-                <span className="cgrid__label">Tell me more about your business</span>
-                <textarea
-                  name="message"
-                  required
-                  maxLength={MAX_MESSAGE}
-                  placeholder="What do you need help with? What are you working with today?"
-                />
-              </label>
-
-              <div className="cgrid__actions">
-                <button
-                  key={shake}
-                  type="submit"
-                  className={`cgrid__submit${busy ? ' is-sending' : ''}${status.kind === 'error' ? ' is-shaking' : ''}`}
-                  disabled={busy}
+          <ul className="cgrid__channels" role="list">
+            {CHANNELS.map((c) => (
+              <li key={c.label} className="cgrid__channel">
+                <span className="cgrid__channel-label">{c.label}</span>
+                <a
+                  className="cgrid__channel-value"
+                  href={c.href}
+                  target={c.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={c.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
                 >
-                  <span className="cgrid__submit-plane" aria-hidden="true">
-                    <PaperPlaneTilt size={17} weight="fill" />
-                  </span>
-                  <span className="cgrid__submit-label">{busy ? 'Sending' : 'Send message'}</span>
-                  <ArrowUpRight className="cgrid__submit-arrow" size={15} weight="bold" aria-hidden="true" />
-                </button>
-                {status.kind === 'error' ? (
-                  <span className="cgrid__status" role="alert">
-                    <WarningCircle size={16} weight="fill" aria-hidden="true" />
-                    {status.note}
-                  </span>
-                ) : (
-                  <span className="cgrid__hint">One business day. No newsletter, no drip.</span>
-                )}
-              </div>
-            </form>
-          )}
+                  {c.value}
+                  <ArrowUpRight size={14} weight="bold" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <p className="cgrid__channel-note">One business day. No newsletter, no drip.</p>
         </div>
       </div>
     </section>
